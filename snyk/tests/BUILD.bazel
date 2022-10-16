@@ -1,3 +1,18 @@
-load(":versions_test.bzl", "versions_test_suite")
+load(
+    "//snyk:defs.bzl",
+    "snyk_test",
+    "snyk_monitor",
+    "snyk_depgraph"
+)
 
-versions_test_suite(name = "versions_test")
+snyk_test(
+    name = "hello_test"
+)
+
+snyk_monitor(
+    name = "hello_monitor"
+)
+
+snyk_depgraph(
+    name = "hello_depgraph"
+)
