@@ -2,24 +2,24 @@
 workspace(
     # If your ruleset is "official"
     # (i.e. is in the bazelbuild GitHub org)
-    # then this should just be named "rules_mylang"
+    # then this should just be named "rules_snyk"
     # see https://docs.bazel.build/versions/main/skylark/deploying.html#workspace
-    name = "com_myorg_rules_mylang",
+    name = "rules_snyk",
 )
 
-load(":internal_deps.bzl", "rules_mylang_internal_deps")
+load(":internal_deps.bzl", "rules_snyk")
 
 # Fetch deps needed only locally for development
-rules_mylang_internal_deps()
+rules_snyk_internal_deps()
 
-load("//mylang:repositories.bzl", "mylang_register_toolchains", "rules_mylang_dependencies")
+load("//snyk:repositories.bzl", "snyk_register_toolchains", "rules_snyk_dependencies")
 
 # Fetch dependencies which users need as well
-rules_mylang_dependencies()
+rules_snyk_dependencies()
 
-mylang_register_toolchains(
-    name = "mylang1_14",
-    mylang_version = "1.14.2",
+snyk_register_toolchains(
+    name = "snyk" #,
+    #snyk_version = "1.14.2",
 )
 
 # For running our own unit tests
