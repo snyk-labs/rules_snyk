@@ -1,18 +1,1 @@
-load(
-    "//snyk:defs.bzl",
-    "snyk_test",
-    "snyk_monitor",
-    "snyk_depgraph"
-)
-
-snyk_test(
-    name = "hello_test"
-)
-
-snyk_monitor(
-    name = "hello_monitor"
-)
-
-snyk_depgraph(
-    name = "hello_depgraph"
-)
+BUILD.bazel.wip

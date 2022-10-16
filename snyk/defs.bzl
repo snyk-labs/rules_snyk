@@ -14,11 +14,11 @@
 
 load(
     "//snyk/private:snyk.bzl",
-    _snyk_test = "snyk_test",
+    _snyk_scan = "snyk_scan",
     _snyk_monitor = "snyk_monitor",
     _snyk_depgraph = "snyk_depgraph"
 )
 
-snyk_test = _snyk_test
+snyk_scan = _snyk_scan
 snyk_monitor = _snyk_monitor
 snyk_depgraph = _snyk_depgraph

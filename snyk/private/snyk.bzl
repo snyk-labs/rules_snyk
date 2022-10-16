@@ -16,7 +16,7 @@ SnykTestResults = provider(
     }
 )
 
-def _snyk_test_impl(target, ctx):
+def _snyk_aspect_impl(target, ctx):
     no_source_files = (
         not hasattr(ctx.rule.attr, 'hdrs') and
         not hasattr(ctx.rule.attr, 'srcs') and
@@ -37,7 +37,47 @@ def _snyk_test_impl(target, ctx):
 
     return []
 
-snyk_test = aspect(
-    implementation = _snyk_test_impl,
+snyk_aspect = aspect(
+    implementation = _snyk_aspect_impl,
     attr_aspects = ['deps'],
 )
+
+def _snyk_scan_impl(ctx):
+    print('hi from _snyk_scan_impl')
+    for dep in ctx.attr.deps:
+        print(dep)
+
+def _snyk_monitor_impl(ctx):
+    print('hi from _snyk_monitor_impl')
+    for dep in ctx.attr.deps:
+        print(dep)
+
+def _snyk_depgraph_impl(ctx):
+    print('hi from _snyk_depgraph_impl')
+    for dep in ctx.attr.deps:
+        print(dep)
+
+snyk_scan = rule(
+    implementation = _snyk_scan_impl,
+    attrs = {
+        'deps' : attr.label_list(aspects = [snyk_aspect]),
+        'extension' : attr.string(default = '*'),
+    },
+)
+
+snyk_monitor = rule(
+    implementation = _snyk_monitor_impl,
+    attrs = {
+        'deps' : attr.label_list(aspects = [snyk_aspect]),
+        'extension' : attr.string(default = '*'),
+    },
+)
+
+snyk_depgraph = rule(
+    implementation = _snyk_depgraph_impl,
+    attrs = {
+        'deps' : attr.label_list(aspects = [snyk_aspect]),
+        'extension' : attr.string(default = '*'),
+    },
+)
+
