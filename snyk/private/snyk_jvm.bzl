@@ -11,7 +11,7 @@ snyk_scan_maven = rule(
     },
 )
 
-def snyk_scan_maven_macro(name, target, out = None, **kwargs):
+def snyk_maven(name, target, out = None, **kwargs):
     snyk_scan_maven(
         name = target.replace(":","") + "." + name + "_test",
         target = target,
