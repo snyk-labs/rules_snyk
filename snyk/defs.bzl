@@ -15,6 +15,10 @@
 load(
     "//snyk/private:snyk_jvm.bzl",
     _snyk_maven = "snyk_maven",
+    # _snyk_gomod = "snyk_gomod",
+    # _snyk_pip = "snyk_pip"
 )
 
 snyk_maven = _snyk_maven
+# snyk_gomod = _snyk_go
+# snyk_pip = _snyk_pip
