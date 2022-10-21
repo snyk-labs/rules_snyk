@@ -13,12 +13,8 @@
 """ Entrypoint for all Snyk rules """
 
 load(
-    "//snyk/private:snyk.bzl",
-    _snyk_scan = "snyk_scan",
-    _snyk_monitor = "snyk_monitor",
-    _snyk_depgraph = "snyk_depgraph"
+    "//snyk/private:snyk_jvm.bzl",
+    _snyk_maven = "snyk_maven",
 )
 
-snyk_scan = _snyk_scan
-snyk_monitor = _snyk_monitor
-snyk_depgraph = _snyk_depgraph
+snyk_maven = _snyk_maven
