@@ -1,4 +1,3 @@
-/external/maven/v1/https/repo1.maven.org/maven2/org/springframework/spring-beans/5.1.5.RELEASE/spring-beans-5.1.5.RELEASE.jar
 load("//snyk/private:snyk.bzl", "snyk_aspect")
 
 def _snyk_scan_impl(ctx):
