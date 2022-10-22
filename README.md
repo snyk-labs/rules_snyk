@@ -34,7 +34,7 @@ snyk_maven is a macro, such that when the target is built, e.g.
 bazel build :lib
 ```
 
-Additional targets will automatically be created for Snyk .  In this examples those would be 
+Additional targets will automatically be created for Snyk .  In this example, those would be 
 ```
 :lib.snyk_test
 :lib.snyk_monitor
