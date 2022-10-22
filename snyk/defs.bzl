@@ -20,5 +20,5 @@ load(
 )
 
 snyk_maven = _snyk_maven
-# snyk_gomod = _snyk_go
+# snyk_gomod = _snyk_gomod
 # snyk_pip = _snyk_pip
