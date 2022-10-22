@@ -1,6 +1,8 @@
 load("//snyk/private:snyk.bzl", "snyk_aspect")
 
 def _snyk_scan_maven_impl(ctx):
+    # collection and processing of transitives for maven goes here
+    print('_snyk_scan_maven_impl | hanlding of maven transitives here')
     print('_snyk_scan_maven_impl | name=' + str(ctx.attr.name))
     print("_snyk_scan_maven_impl | oss_type=" + str(ctx.attr.oss_type))
     print("_snyk_scan_maven_impl | target=" + str(ctx.attr.target.label))
