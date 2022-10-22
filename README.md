@@ -40,6 +40,8 @@ Additional targets will automatically be created for Snyk .  In this example, th
 :lib.snyk_monitor
 ```
 
+*Invocation*
+
 To test for issues with Snyk, simply run
 
 `bazel run :lib.snyk_test`
