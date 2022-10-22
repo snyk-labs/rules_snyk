@@ -7,9 +7,9 @@ Current support is limited to maven OSS for projects using `rules_jvm_external`
 
 Support for additional OSS types is forthcoming, in order of priority:
 
-- go modules
-- pip
-- npm
+- go modules (rules_go)
+- pip (rules_python)
+- npm (rules_nodejs)
 
 ## Installation
 
@@ -40,5 +40,12 @@ Additional targets will automatically be created for Snyk .  In this examples th
 :lib.snyk_monitor
 ```
 
+To test for issues with Snyk, simply run
+
+`bazel run :lib.snyk_test`
+
+To monitor the target in Snyk, simply run
+
+`bazel run :lib.snyk_monitor`
 
 ### via `--aspect`
