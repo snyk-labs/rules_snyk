@@ -10,7 +10,7 @@ snyk_scan_maven = rule(
     attrs = {
         'target' : attr.label(aspects = [snyk_aspect]),
         'deps' : attr.label_list(aspects = [snyk_aspect]),
-        'oss_type' : attr.string(default = ''),
+        'oss_type' : attr.string(default = 'maven'),
     },
 )
 
@@ -19,20 +19,17 @@ def snyk_maven(name, target, out = None, **kwargs):
     snyk_scan_maven(
         name = target.replace(":","") + "." + name + "_test",
         target = target,
-        oss_type = "maven",
         **kwargs
     )
 
     snyk_scan_maven(
         name = target.replace(":","") + "." + name + "_monitor",
         target = target,
-        oss_type = "maven",
         **kwargs
     )
 
     snyk_scan_maven(
         name = target.replace(":","") + "." + name + "_depgraph",
         target = target,
-        oss_type = "maven",
         **kwargs
     )
