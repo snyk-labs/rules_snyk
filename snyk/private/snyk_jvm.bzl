@@ -2,6 +2,7 @@ load("//snyk/private:snyk.bzl", "snyk_aspect")
 
 def _snyk_scan_impl(ctx):
     print('_snyk_scan_impl | name=' + str(ctx.attr.name))
+    print("_snyk_scan_impl | oss_type=" + str(ctx.attr.oss_type))
     print("_snyk_scan_impl | target=" + str(ctx.attr.target.label))
 
 snyk_scan_maven = rule(
