@@ -18,7 +18,7 @@ Load the rules into your `WORKSPACE` to make them available
 ## Usage
 ### via `BUILD` file 
 
-*Maven example*
+**Maven example**
 
 ```
 load("@rules_snyk//snyk/defs.bzl", "snyk_maven")
@@ -40,7 +40,7 @@ Additional targets will automatically be created for Snyk .  In this example, th
 :lib.snyk_monitor
 ```
 
-*Invocation*
+**Invocation**
 
 To test for issues with Snyk, simply run
 
