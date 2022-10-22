@@ -14,6 +14,7 @@ snyk_scan_maven = rule(
     },
 )
 
+# snyk_maven macro will create targets for snyk (test/monitor/depgraph)
 def snyk_maven(name, target, out = None, **kwargs):
     snyk_scan_maven(
         name = target.replace(":","") + "." + name + "_test",
