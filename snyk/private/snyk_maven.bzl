@@ -1,11 +1,26 @@
 load("//snyk/private:snyk.bzl", "snyk_aspect")
 
 def _snyk_scan_maven_impl(ctx):
-    # collection and processing of transitives for maven goes here
-    print('_snyk_scan_maven_impl | hanlding of maven transitives here')
-    print('_snyk_scan_maven_impl | name=' + str(ctx.attr.name))
-    print("_snyk_scan_maven_impl | oss_type=" + str(ctx.attr.oss_type))
-    print("_snyk_scan_maven_impl | target=" + str(ctx.attr.target.label))
+    print('_snyk_scan_maven_impl | generating flat deps output file')
+    #print("_snyk_scan_maven_impl | oss_type=" + str(ctx.attr.oss_type))
+
+    accumulated_deps = []
+    #outputs = depset()
+
+    for dep in ctx.attr.deps:
+        info = dep.info
+        accumulated_deps.append(info.transitive_deps)
+        #outputs = depset(transitive=[outputs, info.transitive_deps])
+
+    print("_snyk_scan_maven_impl | accumulated_deps=" + str(accumulated_deps))
+
+    flat_deps_file = ctx.actions.declare_file('%s.json' % (ctx.attr.target.label.name))
+    
+    print('_snyk_scan_maven_impl | flat_deps_file=' + flat_deps_file.path)
+
+    ctx.actions.write(flat_deps_file, str(accumulated_deps))
+
+    return [DefaultInfo(files = depset([flat_deps_file]))]
 
 snyk_scan_maven = rule(
     implementation = _snyk_scan_maven_impl,
@@ -16,11 +31,11 @@ snyk_scan_maven = rule(
     },
 )
 
-# snyk_maven macro will create targets for snyk (test/monitor/depgraph)
 def snyk_maven(name, target, out = None, **kwargs):
     snyk_scan_maven(
         name = target.replace(":","") + "." + name + "_test",
         target = target,
+        deps = [target],
         **kwargs
     )
 
@@ -35,3 +50,6 @@ def snyk_maven(name, target, out = None, **kwargs):
         target = target,
         **kwargs
     )
+
+def snyk_maven_coordinates(maven_target):
+    print("snyk_maven_coordinates | hello")
