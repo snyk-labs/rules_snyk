@@ -23,13 +23,12 @@ def _snyk_scan_maven_impl(ctx):
 
     print('_snyk_scan_maven_impl | flat_deps_snyk_depgraph=' + flat_deps_snyk_depgraph.path)
 
-    #replace below with python binary call to create the snyk depgraph json and change run_shell to run
-    ctx.actions.run_shell(
+    print("_snyk_scan_maven_impl | python_script=" + str(dir(ctx.executable.python_script)))
+
+    ctx.actions.run(
+        executable = ctx.executable.python_script,
+        arguments = [" > " + str(flat_deps_snyk_depgraph.path)],
         outputs = [flat_deps_snyk_depgraph],
-        #inputs = accumulated_deps,
-        inputs = [flat_deps_file],
-        arguments = [flat_deps_snyk_depgraph.path],
-        command = "echo path=$1 > $1"
     )
 
     return [DefaultInfo(
@@ -43,6 +42,12 @@ snyk_scan_maven = rule(
         'target' : attr.label(aspects = [snyk_aspect]),
         'deps' : attr.label_list(aspects = [snyk_aspect]),
         'oss_type' : attr.string(default = 'maven'),
+        'python_script': attr.label(
+            executable = True,
+            cfg = "exec",
+            allow_files = True,
+            default = "@rules_snyk//snyk/private/bazel2snyk:main",
+        ),
     },
 )
 
@@ -51,6 +56,7 @@ def snyk_maven(name, target, out = None, **kwargs):
         name = target.replace(":","") + "." + name + "_test",
         target = target,
         deps = [target],
+        python_script = "@rules_snyk//snyk/private/bazel2snyk:main",
         **kwargs
     )
 
@@ -65,6 +71,3 @@ def snyk_maven(name, target, out = None, **kwargs):
         target = target,
         **kwargs
     )
-
-def snyk_maven_coordinates(maven_target):
-    print("snyk_maven_coordinates | hello")
