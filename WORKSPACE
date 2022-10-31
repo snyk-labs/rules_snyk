@@ -7,5 +7,10 @@ workspace(
     name = "rules_snyk",
 )
 
+local_repository(
+    name = "rules_snyk",
+    path = ".",
+)
+
 load("//:dependencies.bzl", "rules_snyk_dependencies")
 rules_snyk_dependencies()
