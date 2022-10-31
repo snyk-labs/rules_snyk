@@ -1,9 +1,1 @@
-genrule(
-    name = "test_current_py_toolchain",
-    srcs = [],
-    outs = ["test_python.txt"],
-    cmd = "$(PYTHON3) --version $(location test_python.txt)",
-    toolchains = ["@rules_python//python:current_py_toolchain"],
-)
-
-print("genrule to test toolchain should have run")
+exports_files(["defs.bzl"])
