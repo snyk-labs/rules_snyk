@@ -1,3 +1,18 @@
+MavenDeps = provider(
+    fields = {
+        "all_maven_dep_coordinates": "Array of Maven coordinates for all dependencies",
+    },
+)
+
+# taken from rules_jvm_external
+_MAVEN_PREFIX = "maven_coordinates="
+_STOP_TAGS = ["maven:compile-only", "no-maven"]
+_ASPECT_ATTRS = [
+    "deps",
+    "exports",
+    "runtime_deps",
+]
+
 def _snyk_aspect_impl(target, ctx):
 
     data = struct(
@@ -48,5 +63,5 @@ def _snyk_aspect_impl(target, ctx):
 
 snyk_aspect = aspect(
     implementation = _snyk_aspect_impl,
-    attr_aspects = ['deps'],
+    attr_aspects = ["deps", "exports", "runtime_deps"]
 )
