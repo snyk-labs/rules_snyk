@@ -1,3 +1,5 @@
+load("//snyk:maven.bzl", read_coordinates = "_read_coordinates")
+
 MavenDeps = provider(
     fields = {
         "all_maven_dep_coordinates": "Array of Maven coordinates for all dependencies",
@@ -13,55 +15,34 @@ _ASPECT_ATTRS = [
     "runtime_deps",
 ]
 
-def _snyk_aspect_impl(target, ctx):
+def _maven_deps_aspect_impl(target, ctx):
+    if not JavaInfo in target:
+        return [MavenDeps(all_maven_dep_coordinates = depset())]
 
-    data = struct(
-            originating_rule = ctx.label.name,
-        )
+    maven_coordinates = []
 
-    print("_snyk_aspect_impl | target.label.name=" + str(target.label.name))
-    #print('_snyk_aspect_impl | oss_type=' + str(ctx.attr.oss_type))
+    all_deps = []
+    for attr in _ASPECT_ATTRS:
+        all_deps.extend(getattr(ctx.rule.attr, attr, []))
 
-    # This is critically important to propogate outputs back up the shadow graph!
-    transitive_jsons = depset([ctx.label.name])
+    coords = read_coordinates(ctx.rule.attr.tags)
+    if not coords:
+        pass
+        # TODO: decide if this is worth it or too noisy
+        # print("[!] No maven coordinates found for dep: %s" % (target.label))
+    else:
+        maven_coordinates.extend([coords])
 
-    num_deps = len(ctx.rule.attr.deps)
-    print("_snyk_aspect_impl | num_deps=" + str(num_deps))
-
-    count = 1
-
+    # this is the recursive bit of apsects, each "sub" dep will already have maven_coordinates
+    # so we keep "bubbling them up" to the final target
     for dep in ctx.rule.attr.deps:
+        maven_coordinates.extend(dep[MavenDeps].all_maven_dep_coordinates.to_list())
 
-        print('_snyk_aspect_impl | (' + str(count) + ')dep=' + str(dep.label))
+    return [MavenDeps(
+        all_maven_dep_coordinates = depset(maven_coordinates),
+    )]
 
-        #if str(target.label).startswith("@maven//"):
-        #    print("_snyk_aspect_impl | get coordinates for maven")
-
-        info = dep.info
-        transitive_jsons = depset(transitive=[info.transitive_deps, transitive_jsons])
-
-        #print('_snyk_aspect_impl | info.transitive_deps=' + str(dep.info.transitive_deps))
-        #print('_snyk_aspect_impl | transitive_jsons=' + str(transitive_jsons))
-
-        if (count == num_deps):
-            print("_snyk_aspect_impl | reached direct dep, output file here")
-
-        count += 1
-
-    json_file = ctx.actions.declare_file('%s.direct_deps.json' % (target.label.name))
-    outputs = depset([json_file])
-    print("_snyk_aspect_impl | json_file=" + str(json_file.path))
-
-    ctx.actions.write(json_file, str(transitive_jsons))
-
-    return struct(
-        info = struct(
-            transitive_deps = transitive_jsons,
-            files = outputs,
-        ),
-    )
-
-snyk_aspect = aspect(
+maven_deps_aspect = aspect(
     implementation = _snyk_aspect_impl,
-    attr_aspects = ["deps", "exports", "runtime_deps"]
+    attr_aspects = _ASPECT_ATTRS,
 )
