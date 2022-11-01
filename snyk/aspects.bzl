@@ -43,6 +43,6 @@ def _maven_deps_aspect_impl(target, ctx):
     )]
 
 maven_deps_aspect = aspect(
-    implementation = _snyk_aspect_impl,
+    implementation = _maven_deps_aspect_impl,
     attr_aspects = _ASPECT_ATTRS,
 )
