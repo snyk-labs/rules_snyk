@@ -1,4 +1,4 @@
-load("//snyk:aspects.bzl", "snyk_aspect")
+load("//snyk:aspects.bzl", "maven_deps_aspect")
 
 # taken from rules_jvm_external
 _MAVEN_PREFIX = "maven_coordinates="
