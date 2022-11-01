@@ -1,4 +1,4 @@
-load("//snyk/private:snyk.bzl", "snyk_aspect")
+load("//snyk:aspects.bzl", "snyk_aspect")
 
 def _snyk_scan_maven_impl(ctx):
     print('_snyk_scan_maven_impl | generating flat deps output file')
