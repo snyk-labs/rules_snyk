@@ -1,5 +1,24 @@
 load("//snyk:aspects.bzl", "snyk_aspect")
 
+# taken from rules_jvm_external
+def _read_coordinates(tags):
+    coordinates = []
+    for stop_tag in _STOP_TAGS:
+        if stop_tag in tags:
+            return None
+
+    for tag in tags:
+        if tag.startswith(_MAVEN_PREFIX):
+            coordinates.append(tag[len(_MAVEN_PREFIX):])
+
+    if len(coordinates) > 1:
+        fail("Zero or one set of coordinates should be defined: %s" % coordinates)
+
+    if len(coordinates) == 1:
+        return coordinates[0]
+
+    return None
+
 def _snyk_scan_maven_impl(ctx):
     print('_snyk_scan_maven_impl | generating flat deps output file')
     #print("_snyk_scan_maven_impl | oss_type=" + str(ctx.attr.oss_type))
