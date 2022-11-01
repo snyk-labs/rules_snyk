@@ -1,6 +1,9 @@
 load("//snyk:aspects.bzl", "snyk_aspect")
 
 # taken from rules_jvm_external
+_MAVEN_PREFIX = "maven_coordinates="
+_STOP_TAGS = ["maven:compile-only", "no-maven"]
+
 def _read_coordinates(tags):
     coordinates = []
     for stop_tag in _STOP_TAGS:
