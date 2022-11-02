@@ -1,8 +1,8 @@
-""" Entrypoint for all Snyk rules """
+""" Entrypoint for Snyk macros """
 
-load("//snyk:maven.bzl", _snyk_maven = "snyk_maven")
-#load("//snyk:gomod.bzl", _snyk_gomod = "snyk_gomod")
-#load("//snyk:pip.bzl", _snyk_pip = "snyk_pip")
+load("//snyk/maven:rules.bzl", _snyk_maven = "snyk_maven")
+#load("//snyk/gomod:rules.bzl", _snyk_gomod = "snyk_gomod")
+#load("//snyk/pip:rules.bzl", _snyk_pip = "snyk_pip")
 
 snyk_maven = _snyk_maven
 # snyk_gomod = _snyk_gomod
