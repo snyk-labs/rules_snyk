@@ -1,4 +1,4 @@
-load("//snyk/maven:rules.bzl", read_coordinates = "_read_coordinates", "MavenDeps")
+load("//snyk/maven:rules.bzl", _read_coordinates = "read_coordinates", "MavenDeps")
 
 # taken from rules_jvm_external
 _ASPECT_ATTRS = [
@@ -17,7 +17,7 @@ def _maven_deps_aspect_impl(target, ctx):
     for attr in _ASPECT_ATTRS:
         all_deps.extend(getattr(ctx.rule.attr, attr, []))
 
-    coords = read_coordinates(ctx.rule.attr.tags)
+    coords = _read_coordinates(ctx.rule.attr.tags)
     if not coords:
         pass
         # TODO: decide if this is worth it or too noisy
