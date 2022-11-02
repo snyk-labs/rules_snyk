@@ -1,6 +1,6 @@
 load(":aspect.bzl", "maven_deps_aspect")
 load(":depgraph.bzl", _depgraph = "snyk_maven_depgraph")
-load("//snyk:depgraph.bzl", _monitor = "snyk_depgraph_monitor_deps", _test = "snyk_depgraph_test_deps")
+load("//snyk:rules.bzl", _monitor = "snyk_depgraph_monitor_deps", _test = "snyk_depgraph_test_deps")
 
 #def _snyk_scan_maven_impl(ctx):
 #    print('_snyk_scan_maven_impl | generating flat deps output file')
