@@ -21,7 +21,7 @@ Load the rules into your `WORKSPACE` to make them available
 **Maven example**
 
 ```
-load("@rules_snyk//snyk/defs.bzl", "snyk_maven")
+load("@rules_snyk//:defs.bzl", "snyk_maven")
 
 snyk_maven(
     name = "snyk",
