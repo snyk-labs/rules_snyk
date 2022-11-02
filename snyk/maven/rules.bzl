@@ -1,5 +1,6 @@
 load("//snyk:aspects.bzl", "maven_deps_aspect")
-load("//snyk/maven:depgraph.bzl", _snyk_maven_depgraph = "snyk_maven_depgraph")
+load("//snyk:depgraph.bzl", _monitor = "snyk_depgraph_monitor_deps", _test = "snyk_depgraph_test_deps")
+load("//snyk/maven:depgraph.bzl", _depgraph = "snyk_maven_depgraph")
 
 MavenDeps = provider(
     fields = {
