@@ -93,7 +93,7 @@ snyk_maven_depgraph = rule(
             doc = "The Java Library target to scan",
             mandatory = True,
             providers = [JavaInfo],
-            aspects = [maven_deps],
+            aspects = [maven_deps_aspect],
         ),
         "version": attr.string(
             doc = "Version to submit to Snyk. Default: dev",
