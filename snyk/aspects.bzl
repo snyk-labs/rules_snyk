@@ -7,8 +7,6 @@ MavenDeps = provider(
 )
 
 # taken from rules_jvm_external
-_MAVEN_PREFIX = "maven_coordinates="
-_STOP_TAGS = ["maven:compile-only", "no-maven"]
 _ASPECT_ATTRS = [
     "deps",
     "exports",
