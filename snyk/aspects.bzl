@@ -1,10 +1,4 @@
-load("//snyk:maven.bzl", read_coordinates = "_read_coordinates")
-
-MavenDeps = provider(
-    fields = {
-        "all_maven_dep_coordinates": "Array of Maven coordinates for all dependencies",
-    },
-)
+load("//snyk/maven:rules.bzl", read_coordinates = "_read_coordinates", "MavenDeps")
 
 # taken from rules_jvm_external
 _ASPECT_ATTRS = [
