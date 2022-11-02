@@ -1,4 +1,8 @@
-load("//snyk/maven:rules.bzl", _read_coordinates = "read_coordinates", "MavenDeps")
+MavenDeps = provider(
+    fields = {
+        "all_maven_dep_coordinates": "Array of Maven coordinates for all dependencies",
+    },
+)
 
 # taken from rules_jvm_external
 _ASPECT_ATTRS = [
@@ -6,6 +10,26 @@ _ASPECT_ATTRS = [
     "exports",
     "runtime_deps",
 ]
+_MAVEN_PREFIX = "maven_coordinates="
+_STOP_TAGS = ["maven:compile-only", "no-maven"]
+
+def read_coordinates(tags):
+    coordinates = []
+    for stop_tag in _STOP_TAGS:
+        if stop_tag in tags:
+            return None
+
+    for tag in tags:
+        if tag.startswith(_MAVEN_PREFIX):
+            coordinates.append(tag[len(_MAVEN_PREFIX):])
+
+    if len(coordinates) > 1:
+        fail("Zero or one set of coordinates should be defined: %s" % coordinates)
+
+    if len(coordinates) == 1:
+        return coordinates[0]
+
+    return None
 
 def _maven_deps_aspect_impl(target, ctx):
     if not JavaInfo in target:
