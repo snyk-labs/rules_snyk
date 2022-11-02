@@ -1,0 +1,104 @@
+# Copyright 2022 Marqeta. All rights reserved.
+# Use of this source code is governed by an Apache 2.0 style license
+# that can be found in the LICENSE file
+
+def _snyk_depgraph_test_deps_impl(ctx):
+  depGraph = ctx.attr.depgraph.files.to_list()[0]
+  args = [
+      "-depGraph",
+      depGraph.short_path,
+  ]
+  if ctx.attr.org_id:
+      args.append("-snykOrgID %s" %( ctx.attr.org_id ))
+  if ctx.attr.json:
+      args.append("-json")
+  if ctx.attr.nocolor:
+      args.append("-nocolor")
+  ctx.actions.write(
+      output = ctx.outputs.executable,
+      content = "\n".join([
+          "#!/bin/bash",
+          "exec %s %s test" % (ctx.executable._snyk_uploader.short_path, " ".join(args))
+      ]),
+      is_executable = True,
+  )
+  runfiles = ctx.runfiles(files = [ctx.executable._snyk_uploader, depGraph])
+  return [DefaultInfo(
+      runfiles = runfiles,
+  )]
+
+def _snyk_depgraph_monitor_deps_impl(ctx):
+  depGraph = ctx.attr.depgraph.files.to_list()[0]
+  args = [
+      "-depGraph",
+      depGraph.short_path,
+  ]
+  if ctx.attr.org_id:
+      args.append("-snykOrgID %s" % (ctx.attr.org_id))
+  if ctx.attr.json:
+      args.append("-json")
+  if ctx.attr.nocolor:
+      args.append("-nocolor")
+  ctx.actions.write(
+      output = ctx.outputs.executable,
+      content = "\n".join([
+          "#!/bin/bash",
+          "exec %s %s monitor" % (ctx.executable._snyk_uploader.short_path, " ".join(args))
+      ]),
+      is_executable = True,
+  )
+  runfiles = ctx.runfiles(files = [ctx.executable._snyk_uploader, depGraph])
+  return [DefaultInfo(runfiles = runfiles)]
+
+snyk_depgraph_test_deps = rule(
+  attrs = {
+        "_snyk_uploader": attr.label(
+            default = "//uploader:snykuploader",
+            cfg = "host",
+            executable = True,
+        ),
+        "depgraph": attr.label(
+            mandatory = True
+        ),
+        "org_id": attr.string(
+            doc = "The Snyk Org ID to use",
+        ),
+        "json": attr.bool(
+            doc = "Dump full JSON output",
+            default = False
+        ),
+        "nocolor": attr.bool(
+            doc = "Don't display colors",
+            default = False
+        )
+    },
+    implementation = _snyk_depgraph_test_deps_impl,
+    executable = True
+)
+
+snyk_depgraph_monitor_deps = rule(
+  attrs = {
+        "_snyk_uploader": attr.label(
+            default = "//uploader:snykuploader",
+            cfg = "host",
+            executable = True,
+        ),
+        "depgraph": attr.label(
+            mandatory = True
+        ),
+        "org_id": attr.string(
+            doc = "The Snyk Org ID to use",
+            default = "",
+        ),
+        "json": attr.bool(
+            doc = "Dump full JSON output",
+            default = False
+        ),
+        "nocolor": attr.bool(
+            doc = "Don't display colors",
+            default = False
+        )
+    },
+    implementation = _snyk_depgraph_monitor_deps_impl,
+    executable = True
+)
