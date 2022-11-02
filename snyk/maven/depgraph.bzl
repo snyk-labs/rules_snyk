@@ -2,7 +2,7 @@
 # Use of this source code is governed by an Apache 2.0 style license
 # that can be found in the LICENSE file
 
-load(":aspect.bzl", "MavenDeps", "maven_deps")
+load(":aspect.bzl", "MavenDeps", "maven_deps_aspect")
 
 _DEPGRAPH_SCHEMA_VERSION = "1.2.0"
 
