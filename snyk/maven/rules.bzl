@@ -1,4 +1,5 @@
 load("//snyk:aspects.bzl", "maven_deps_aspect")
+load("//snyk/maven:depgraph.bzl", _snyk_maven_depgraph = "snyk_maven_depgraph")
 
 MavenDeps = provider(
     fields = {
@@ -79,23 +80,37 @@ snyk_scan_maven = rule(
     },
 )
 
-def snyk_maven(name, target, out = None, **kwargs):
-    snyk_scan_maven(
+def snyk_maven(
+        name,
+        target,
+        snyk_project_name = "",
+        snyk_organization_id = "",
+        version = "dev",
+        json = False,
+        nocolor = False):
+    
+    depgraph_rule_name = target.replace(":","") + "." + name + "_depgraph"
+    
+    _test(
         name = target.replace(":","") + "." + name + "_test",
-        target = target,
-        deps = [target],
-        python_script = "@rules_snyk//snyk/private/bazel2snyk:main",
-        **kwargs
+        org_id = snyk_organization_id, 
+        depgraph = depgraph_rule_name,
+        json = json,
+        nocolor = nocolor,
     )
 
-    snyk_scan_maven(
+    _monitor(
         name = target.replace(":","") + "." + name + "_monitor",
-        target = target,
-        **kwargs
+        org_id = snyk_organization_id, 
+        depgraph = depgraph_rule_name,
+        json = json,
+        nocolor = nocolor,
     )
 
-    snyk_scan_maven(
-        name = target.replace(":","") + "." + name + "_depgraph",
+    _depgraph(
+        name = depgraph_rule_name,
         target = target,
-        **kwargs
+        project_name = snyk_project_name,
+        org_id = snyk_organization_id, 
+        version = version,
     )
