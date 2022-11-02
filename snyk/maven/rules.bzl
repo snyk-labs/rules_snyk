@@ -1,5 +1,11 @@
 load("//snyk:aspects.bzl", "maven_deps_aspect")
 
+MavenDeps = provider(
+    fields = {
+        "all_maven_dep_coordinates": "Array of Maven coordinates for all dependencies",
+    },
+)
+
 # taken from rules_jvm_external
 _MAVEN_PREFIX = "maven_coordinates="
 _STOP_TAGS = ["maven:compile-only", "no-maven"]
