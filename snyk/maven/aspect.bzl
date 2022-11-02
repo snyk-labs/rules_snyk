@@ -13,7 +13,7 @@ _ASPECT_ATTRS = [
 _MAVEN_PREFIX = "maven_coordinates="
 _STOP_TAGS = ["maven:compile-only", "no-maven"]
 
-def read_coordinates(tags):
+def _read_coordinates(tags):
     coordinates = []
     for stop_tag in _STOP_TAGS:
         if stop_tag in tags:
