@@ -1,34 +1,6 @@
-load("//snyk:aspects.bzl", "maven_deps_aspect")
+load(":aspect.bzl", "maven_deps_aspect")
+load(":depgraph.bzl", _depgraph = "snyk_maven_depgraph")
 load("//snyk:depgraph.bzl", _monitor = "snyk_depgraph_monitor_deps", _test = "snyk_depgraph_test_deps")
-load("//snyk/maven:depgraph.bzl", _depgraph = "snyk_maven_depgraph")
-
-MavenDeps = provider(
-    fields = {
-        "all_maven_dep_coordinates": "Array of Maven coordinates for all dependencies",
-    },
-)
-
-# taken from rules_jvm_external
-_MAVEN_PREFIX = "maven_coordinates="
-_STOP_TAGS = ["maven:compile-only", "no-maven"]
-
-def read_coordinates(tags):
-    coordinates = []
-    for stop_tag in _STOP_TAGS:
-        if stop_tag in tags:
-            return None
-
-    for tag in tags:
-        if tag.startswith(_MAVEN_PREFIX):
-            coordinates.append(tag[len(_MAVEN_PREFIX):])
-
-    if len(coordinates) > 1:
-        fail("Zero or one set of coordinates should be defined: %s" % coordinates)
-
-    if len(coordinates) == 1:
-        return coordinates[0]
-
-    return None
 
 #def _snyk_scan_maven_impl(ctx):
 #    print('_snyk_scan_maven_impl | generating flat deps output file')
