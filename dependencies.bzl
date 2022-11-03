@@ -3,14 +3,12 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def rules_snyk_dependencies():
     # python support for depgraph processing
-    rules_python_version = "740825b7f74930c62f44af95c9a4c1bd428d2c53" # Latest @ 2021-06-23
-
     http_archive(
         name = "rules_python",
-        sha256 = "3474c5815da4cb003ff22811a36a11894927eda1c2e64bf2dac63e914bfdf30f",
-        strip_prefix = "rules_python-{}".format(rules_python_version),
-        url = "https://github.com/bazelbuild/rules_python/archive/{}.zip".format(rules_python_version),
-    )
+        sha256 = "8c8fe44ef0a9afc256d1e75ad5f448bb59b81aba149b8958f02f7b3a98f5d9b4",
+        strip_prefix = "rules_python-0.13.0",
+    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.13.0.tar.gz",
+)
 
     #def rules_snyk_dependencies():
         # rules_nodejs is required for installing and running the Snyk CLI
