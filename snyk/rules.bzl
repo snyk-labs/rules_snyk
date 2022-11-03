@@ -18,11 +18,11 @@ def _snyk_depgraph_test_deps_impl(ctx):
       output = ctx.outputs.executable,
       content = "\n".join([
           "#!/bin/bash",
-          "exec %s %s test" % (ctx.executable._snyk_uploader.short_path, " ".join(args))
+          "exec %s %s test" % (ctx.executable._snyk_cli.short_path, " ".join(args))
       ]),
       is_executable = True,
   )
-  runfiles = ctx.runfiles(files = [ctx.executable._snyk_uploader, depGraph])
+  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli, depGraph])
   return [DefaultInfo(
       runfiles = runfiles,
   )]
@@ -43,17 +43,17 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
       output = ctx.outputs.executable,
       content = "\n".join([
           "#!/bin/bash",
-          "exec %s %s monitor" % (ctx.executable._snyk_uploader.short_path, " ".join(args))
+          "exec %s %s monitor" % (ctx.executable._snyk_cli.short_path, " ".join(args))
       ]),
       is_executable = True,
   )
-  runfiles = ctx.runfiles(files = [ctx.executable._snyk_uploader, depGraph])
+  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli, depGraph])
   return [DefaultInfo(runfiles = runfiles)]
 
 snyk_depgraph_test_deps = rule(
   attrs = {
-        "_snyk_uploader": attr.label(
-            default = "//uploader:snykuploader",
+        "_snyk_cli": attr.label(
+            default = "//snyk/scripts/bazel_to_depgraph:main",
             cfg = "host",
             executable = True,
         ),
@@ -78,8 +78,8 @@ snyk_depgraph_test_deps = rule(
 
 snyk_depgraph_monitor_deps = rule(
   attrs = {
-        "_snyk_uploader": attr.label(
-            default = "//uploader:snykuploader",
+        "_snyk_cli": attr.label(
+            default = "//snyk/scripts/bazel_to_depgraph:main",
             cfg = "host",
             executable = True,
         ),
