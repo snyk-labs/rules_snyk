@@ -53,7 +53,7 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
 snyk_depgraph_test_deps = rule(
   attrs = {
         "_snyk_cli": attr.label(
-            default = "//snyk/scripts/bazel_to_depgraph:main",
+            default = "//snyk/scripts/cli:main",
             cfg = "host",
             executable = True,
         ),
@@ -79,7 +79,7 @@ snyk_depgraph_test_deps = rule(
 snyk_depgraph_monitor_deps = rule(
   attrs = {
         "_snyk_cli": attr.label(
-            default = "//snyk/scripts/bazel_to_depgraph:main",
+            default = "//snyk/scripts/cli:main",
             cfg = "host",
             executable = True,
         ),
