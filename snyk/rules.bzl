@@ -14,17 +14,19 @@ def _snyk_depgraph_test_deps_impl(ctx):
       args.append("-json")
   if ctx.attr.nocolor:
       args.append("-nocolor")
+
   ctx.actions.write(
       output = ctx.outputs.executable,
       content = "\n".join([
           "#!/bin/bash",
-          "exec %s %s test" % (ctx.executable._snyk_cli.short_path, " ".join(args))
+          "exec python3 %s %s test" % (ctx.executable._snyk_cli_zip.short_path, " ".join(args))
       ]),
       is_executable = True,
-  )
-  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli, depGraph])
+   )
+
+  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli_zip, depGraph])
   return [DefaultInfo(
-      runfiles = runfiles,
+      runfiles = runfiles
   )]
 
 def _snyk_depgraph_monitor_deps_impl(ctx):
@@ -39,6 +41,7 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
       args.append("-json")
   if ctx.attr.nocolor:
       args.append("-nocolor")
+  print("ctx.outputs.executable = " + str(ctx.outputs.executable))
   ctx.actions.write(
       output = ctx.outputs.executable,
       content = "\n".join([
@@ -57,6 +60,7 @@ snyk_depgraph_test_deps = rule(
             cfg = "host",
             executable = True,
         ),
+        "_snyk_cli_zip": attr.label(default = "//snyk/scripts/cli:cli_main_zip", cfg = "target", executable = True),
         "depgraph": attr.label(
             mandatory = True
         ),
