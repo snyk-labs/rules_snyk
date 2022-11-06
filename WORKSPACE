@@ -16,6 +16,16 @@ load("//:dependencies.bzl", "rules_snyk_dependencies")
 
 rules_snyk_dependencies()
 
+python_build_standalone_interpreter(
+        name = "python_interpreter",
+    )
+    
+pip_install(
+    name = "py_deps",
+    python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
+    requirements = "//third_party:requirements.txt",
+)
+
 load("@rules_snyk//tools/python:python_interpreter.bzl", "py_download")
 
 py_download(
