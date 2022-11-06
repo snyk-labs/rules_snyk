@@ -33,7 +33,7 @@ load("@rules_python//python:pip.bzl", "pip_install")
     
 pip_install(
     name = "pypi_deps",
-    python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
+    #python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
     requirements = "//third_party:requirements.txt",
 )
 
