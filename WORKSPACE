@@ -29,7 +29,7 @@ http_archive(
 #        name = "python_interpreter",
 #    )
 
-load("@rules_python//python:pip.bzl", "pip_parse)
+load("@rules_python//python:pip.bzl", "pip_parse")
     
 pip_parse(
     name = "py_deps",
