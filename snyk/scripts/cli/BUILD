@@ -9,5 +9,6 @@ py_binary(
 filegroup(
     name = "cli_main_zip",
     srcs = [":main"],
+    visibility = ["//visibility:public"],
     output_group = "python_zip_file",
 )
