@@ -17,8 +17,10 @@ local_repository(
 #rules_snyk_dependencies()
 
 #python_build_standalone_interpreter(
-        name = "python_interpreter",
-    )
+#        name = "python_interpreter",
+#    )
+
+load("@rules_python//python:pip.bzl", "pip_install")
     
 pip_install(
     name = "pypi_deps",
