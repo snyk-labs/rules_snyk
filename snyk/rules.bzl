@@ -46,7 +46,7 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
       output = ctx.outputs.executable,
       content = "\n".join([
           "#!/bin/bash",
-          "exec %s %s monitor" % (ctx.executable._snyk_cli.short_path, " ".join(args))
+          "exec python3 %s %s monitor" % (ctx.executable._snyk_cli.short_path, " ".join(args))
       ]),
       is_executable = True,
   )
