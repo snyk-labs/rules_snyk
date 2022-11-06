@@ -91,9 +91,6 @@ snyk_depgraph_monitor_deps = rule(
         "depgraph": attr.label(
             mandatory = True
         ),
-        "depgraph": attr.label(
-            mandatory = True
-        ),
         "org_id": attr.string(
             doc = "The Snyk Org ID to use",
             default = "",
