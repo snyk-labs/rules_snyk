@@ -1,5 +1,6 @@
 import sys
 import json
+from snyk import SnykClient
 
 print(f"{sys.version=}")
 print(f"{sys.argv=}")
