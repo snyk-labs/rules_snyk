@@ -11,15 +11,15 @@ def rules_snyk_dependencies():
         url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.13.0.tar.gz",
     )
     
-    python_build_standalone_interpreter(
-        name = "python_interpreter",
-    )
+    #python_build_standalone_interpreter(
+    #    name = "python_interpreter",
+    #)
     
-    pip_install(
-        name = "py_deps",
-        python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
-        requirements = "//third_party:requirements.txt",
-    )
+    #pip_install(
+    #    name = "py_deps",
+    #    python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
+    #    requirements = "//third_party:requirements.txt",
+    #)
 
 #load("@rules_python//python:pip.bzl", "pip_parse")
 
