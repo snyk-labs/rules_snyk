@@ -29,13 +29,18 @@ http_archive(
 #        name = "python_interpreter",
 #    )
 
-load("@rules_python//python:pip.bzl", "pip_install")
+load("@rules_python//python:pip.bzl", "pip_parse)
     
-pip_install(
-    name = "pypi_deps",
+pip_parse(
+    name = "py_deps",
     #python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
     requirements = "//third_party:requirements.txt",
 )
+     
+# Load the starlark macro which will define your dependencies.
+load("@py_deps//:requirements.bzl", "install_deps")
+# Call it to define repos for your requirements.
+install_deps()
 
 #load("@rules_snyk//tools/python:python_interpreter.bzl", "py_download")
 
