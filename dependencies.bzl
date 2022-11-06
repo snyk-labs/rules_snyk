@@ -1,4 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("//tools/build/bazel/py_toolchain:py_interpreter.bzl", "python_build_standalone_interpreter")
+load("@rules_python//python:pip.bzl", "pip_install")
 
 def rules_snyk_dependencies():
     # python support for depgraph processing
@@ -6,22 +8,18 @@ def rules_snyk_dependencies():
         name = "rules_python",
         sha256 = "8c8fe44ef0a9afc256d1e75ad5f448bb59b81aba149b8958f02f7b3a98f5d9b4",
         strip_prefix = "rules_python-0.13.0",
-    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.13.0.tar.gz",
-)
+        url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.13.0.tar.gz",
+    )
     
-load("//tools/build/bazel/py_toolchain:py_interpreter.bzl", "python_build_standalone_interpreter")
-
-python_build_standalone_interpreter(
-    name = "python_interpreter",
-)
-
-load("@rules_python//python:pip.bzl", "pip_install")
-
-pip_install(
-    name = "py_deps",
-    python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
-    requirements = "//third_party:requirements.txt",
-)
+    python_build_standalone_interpreter(
+        name = "python_interpreter",
+    )
+    
+    pip_install(
+        name = "py_deps",
+        python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
+        requirements = "//third_party:requirements.txt",
+    )
 
 #load("@rules_python//python:pip.bzl", "pip_parse")
 
