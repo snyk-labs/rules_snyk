@@ -15,18 +15,26 @@ python_build_standalone_interpreter(
     name = "python_interpreter",
 )
 
-load("@rules_python//python:pip.bzl", "pip_parse")
+load("@rules_python//python:pip.bzl", "pip_install")
+
+pip_install(
+    name = "py_deps",
+    python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
+    requirements = "//third_party:requirements.txt",
+)
+
+#load("@rules_python//python:pip.bzl", "pip_parse")
 
 # Create a central repo that knows about the dependencies needed from
 # requirements.txt
-pip_parse(
-   name = "py_deps",
-   python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
-   requirements_lock = "//third_party:requirements.txt",
-)
+#pip_parse(
+#   name = "py_deps",
+#   python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
+#   requirements_lock = "//third_party:requirements.txt",
+#)
 
 # Load the starlark macro which will define your dependencies.
-load("@py_deps//:requirements.bzl", "install_deps")
+#load("@py_deps//:requirements.bzl", "install_deps")
 
 # Call it to define repos for your requirements.
-install_deps()
+#install_deps()
