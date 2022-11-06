@@ -60,7 +60,7 @@ snyk_depgraph_test_deps = rule(
             cfg = "host",
             executable = True,
         ),
-        "_snyk_cli_zip": attr.label(default = "//snyk/scripts/cli:cli_main_zip", cfg = "target", executable = True),
+        "_snyk_cli_zip": attr.label(default = "//snyk/scripts/cli:cli_main_zip", cfg = "host", executable = True),
         "depgraph": attr.label(
             mandatory = True
         ),
@@ -86,6 +86,10 @@ snyk_depgraph_monitor_deps = rule(
             default = "//snyk/scripts/cli:main",
             cfg = "host",
             executable = True,
+        ),
+        "_snyk_cli_zip": attr.label(default = "//snyk/scripts/cli:cli_main_zip", cfg = "host", executable = True),
+        "depgraph": attr.label(
+            mandatory = True
         ),
         "depgraph": attr.label(
             mandatory = True
