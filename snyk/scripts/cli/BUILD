@@ -4,9 +4,6 @@ load("@rules_snyk//:requirements.bzl", "all_requirements")
 py_binary(
     name = "main",
     srcs = ["main.py"],
-    #deps = [
-    #    requirement("pysnyk"),
-    #],
     deps = all_requirements,
     visibility = ["//visibility:public"],
 )
