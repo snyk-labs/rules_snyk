@@ -1,6 +1,7 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@rules_snyk//:requirements.bzl", "install_deps")
 #load("//tools/build/bazel/py_toolchain:py_interpreter.bzl", "python_build_standalone_interpreter")
-load("@rules_python//python:pip.bzl", "pip_parse")
+#load("@rules_python//python:pip.bzl", "pip_parse")
 
 def rules_snyk_dependencies():
     # python support for depgraph processing
@@ -10,12 +11,10 @@ def rules_snyk_dependencies():
         strip_prefix = "rules_python-0.13.0",
         url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.13.0.tar.gz",
     )
-    
+
     #python_build_standalone_interpreter(
     #    name = "python_interpreter",
     #)
-
-
 
     # Create a central repo that knows about the dependencies needed from
     # requirements.txt
@@ -25,8 +24,5 @@ def rules_snyk_dependencies():
     #    requirements = "//third_party:requirements.txt",
     #)
 
-    # Load the starlark macro which will define your dependencies.
-    #load("@py_deps//:requirements.bzl", "install_deps")
-
-    # Call it to define repos for your requirements.
-    #install_deps()
+    # Install from requirements.bzl
+    install_deps()
