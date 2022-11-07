@@ -19,11 +19,11 @@ def rules_snyk_dependencies():
 
     # Create a central repo that knows about the dependencies needed from
     # requirements.txt
-    pip_parse(
-        name = "py_deps",
+    #pip_parse(
+    #    name = "py_deps",
         #python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
-        requirements = "//third_party:requirements.txt",
-    )
+    #    requirements = "//third_party:requirements.txt",
+    #)
 
     # Load the starlark macro which will define your dependencies.
     #load("@py_deps//:requirements.bzl", "install_deps")
