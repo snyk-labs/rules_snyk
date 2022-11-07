@@ -21,9 +21,9 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.13.0.tar.gz",
 )
 
-#load("//:dependencies.bzl", "rules_snyk_dependencies")
+load("//:dependencies.bzl", "rules_snyk_dependencies")
 
-#rules_snyk_dependencies()
+rules_snyk_dependencies()
 
 #python_build_standalone_interpreter(
 #        name = "python_interpreter",
