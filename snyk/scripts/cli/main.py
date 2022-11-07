@@ -3,6 +3,7 @@ import json
 import os
 import snyk
 import requests
+from uuid import UUID
 
 SNYK_TOKEN = os.environ['SNYK_TOKEN']
 
