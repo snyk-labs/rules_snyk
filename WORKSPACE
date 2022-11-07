@@ -34,7 +34,7 @@ load("@rules_python//python:pip.bzl", "pip_parse")
 pip_parse(
     name = "py_deps",
     #python_interpreter_target = "@python_interpreter//:python/install/bin/python3.9",
-    requirements = "//third_party:requirements.txt",
+    requirements = "@rules_snyk//third_party:requirements.txt",
 )
      
 # Load the starlark macro which will define your dependencies.
