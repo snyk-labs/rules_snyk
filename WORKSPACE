@@ -38,8 +38,8 @@ pip_parse(
 )
      
 # Load the starlark macro which will define your dependencies.
-load("@py_deps//:requirements.bzl", "install_deps")
-install_deps()
+#load("@py_deps//:requirements.bzl", "install_deps")
+#install_deps()
 load("@rules_snyk//:requirements.bzl", "install_deps")
 # Call it to define repos for your requirements.
 install_deps()
