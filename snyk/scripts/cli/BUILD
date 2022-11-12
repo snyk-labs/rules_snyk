@@ -1,5 +1,5 @@
 load("@rules_python//python:defs.bzl", "py_binary")
-load("@rules_snyk//:requirements.bzl", "all_requirements")
+load("//:py_requirements.bzl", "all_requirements")
 
 py_binary(
     name = "main",
