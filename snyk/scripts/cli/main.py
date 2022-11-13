@@ -20,8 +20,8 @@ g={}
 DEPGRAPH_BASE_TEST_URL = "/test/dep-graph?org="
 DEPGRAPH_BASE_MONITOR_URL = "/monitor/dep-graph?org="
 
-
 print("Hello from CLI!")
+print(f"{sys.argv=}")
 
 @app.callback(no_args_is_help=True)
 def main(ctx: typer.Context,
