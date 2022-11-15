@@ -76,7 +76,7 @@ snyk_depgraph_test_deps = rule(
             default = "maven",
             mandatory = True
         ),
-        "depgraph_file": attr.label(
+        "depgraph": attr.label(
             mandatory = True
         ),
         "org_id": attr.string(
@@ -112,7 +112,7 @@ snyk_depgraph_monitor_deps = rule(
             default = "maven",
             mandatory = True
         ),
-        "depgraph_file": attr.label(
+        "depgraph": attr.label(
             mandatory = True
         ),
         "org_id": attr.string(
