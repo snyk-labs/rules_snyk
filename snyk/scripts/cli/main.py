@@ -48,6 +48,8 @@ def main(ctx: typer.Context,
 
     f = open(depgraph_file)
     g['depgraph_json'] = json.load(f)
+    
+    print(json.dumps(g['depgraph_json']))
 
 @app.command()
 def test(
