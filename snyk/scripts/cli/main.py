@@ -121,3 +121,7 @@ def test_depgraph(snyk_client, depgraph: str, org_id: UUID) -> requests.Response
 
 def monitor_depgraph(snyk_client, depgraph: str, org_id: UUID) -> requests.Response:
         return snyk_client.post(f"{DEPGRAPH_BASE_MONITOR_URL}{org_id}", body=depgraph)
+
+
+if __name__ == "__main__":
+    app()
