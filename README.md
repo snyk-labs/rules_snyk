@@ -41,7 +41,8 @@ load("@rules_snyk//:defs.bzl", "snyk_maven")
 
 snyk_maven(
     name = "snyk",
-    target = ":lib"
+    target = ":lib",
+    snyk_organization_id = "<snyk_org_id>"
 )
 ```
 
