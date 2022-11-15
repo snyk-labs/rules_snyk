@@ -27,7 +27,7 @@ def _snyk_depgraph_test_deps_impl(ctx):
       is_executable = True,
    )
 
-  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli_zip, depGraph])
+  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli_zip, depgraph_file])
   return [DefaultInfo(
       runfiles = runfiles
   )]
@@ -56,7 +56,7 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
       ]),
       is_executable = True,
   )
-  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli, depGraph])
+  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli, depgraph_file])
   return [DefaultInfo(runfiles = runfiles)]
 
 snyk_depgraph_test_deps = rule(
