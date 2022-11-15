@@ -71,6 +71,11 @@ snyk_depgraph_test_deps = rule(
             cfg = "host", 
             executable = True
         ),
+        "package_source": attr.string(
+            doc = "The package source type",
+            default = "maven",
+            mandatory = True
+        ),
         "depgraph_file": attr.label(
             mandatory = True
         ),
@@ -101,6 +106,11 @@ snyk_depgraph_monitor_deps = rule(
             default = "//snyk/scripts/cli:main_zip", 
             cfg = "host", 
             executable = True
+        ),
+        "package_source": attr.string(
+            doc = "The package source type",
+            default = "maven",
+            mandatory = True
         ),
         "depgraph_file": attr.label(
             mandatory = True

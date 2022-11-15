@@ -72,7 +72,7 @@ def _snyk_maven_depgraph_impl(ctx):
 
 
     dep_graph_request = struct(
-        depGraph = dep_graph
+        depgraph = dep_graph
     )
 
     outputfile = ctx.actions.declare_file(ctx.attr.name + "_depgraph.json")
@@ -81,6 +81,10 @@ def _snyk_maven_depgraph_impl(ctx):
 
 snyk_maven_depgraph = rule(
     attrs = {
+        "package_source": attr.string(
+            doc = "The package source type. If not provided, will be 'maven'",
+            default = "",
+        ),
         "project_name": attr.string(
             doc = "The project name for Snyk. If not provided, will be <target_name>",
             default = "",
