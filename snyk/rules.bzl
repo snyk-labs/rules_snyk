@@ -73,8 +73,8 @@ snyk_depgraph_test_deps = rule(
         ),
         "package_source": attr.string(
             doc = "The package source type",
-            default = "maven",
-            mandatory = True
+            #default = "maven",
+            #mandatory = True
         ),
         "depgraph": attr.label(
             mandatory = True
@@ -108,9 +108,9 @@ snyk_depgraph_monitor_deps = rule(
             executable = True
         ),
         "package_source": attr.string(
-            doc = "The package source type",
-            default = "maven",
-            mandatory = True
+            doc = "The package source type", 
+            #default = "maven",
+            #mandatory = True
         ),
         "depgraph": attr.label(
             mandatory = True
