@@ -62,10 +62,12 @@ def snyk_maven(
         json = False,
         nocolor = False):
     
+    package_source = "maven"
     depgraph_rule_name = target.replace(":","") + "." + name + "_depgraph"
     
     _test(
         name = target.replace(":","") + "." + name + "_test",
+        package_source = package_source,
         org_id = snyk_organization_id, 
         depgraph = depgraph_rule_name,
         json = json,
@@ -74,6 +76,7 @@ def snyk_maven(
 
     _monitor(
         name = target.replace(":","") + "." + name + "_monitor",
+        package_source = package_source,
         org_id = snyk_organization_id, 
         depgraph = depgraph_rule_name,
         json = json,
@@ -83,6 +86,7 @@ def snyk_maven(
     _depgraph(
         name = depgraph_rule_name,
         target = target,
+        package_source = package_source,
         project_name = snyk_project_name,
         org_id = snyk_organization_id, 
         version = version,
