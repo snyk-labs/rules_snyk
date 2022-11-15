@@ -72,7 +72,7 @@ def _snyk_maven_depgraph_impl(ctx):
 
 
     dep_graph_request = struct(
-        depgraph = dep_graph
+        depGraph = dep_graph
     )
 
     outputfile = ctx.actions.declare_file(ctx.attr.name + "_depgraph.json")
