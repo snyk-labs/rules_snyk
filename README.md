@@ -21,12 +21,14 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 git_repository(
     name = "rules_snyk",
     remote = "https://github.com/scotte-snyk/bazel_rules_snyk.git",
-    commit = "f7ec4af1e8de11ce81d0ee8e8a2476b89499c6a3",
+    commit = "3bb81ba4464fff56daa130348f427ec87201b65f",
 )
 
-load("@rules_snyk//:dependencies.bzl", "rules_snyk_dependencies")
+load("@rules_snyk//:repositories.bzl", "rules_snyk_repos")
+rules_snyk_repos()
 
-rules_snyk_dependencies()
+load("@rules_snyk//:dependencies.bzl", "rules_snyk_deps")
+rules_snyk_deps()
 ```
 
 ## Usage
