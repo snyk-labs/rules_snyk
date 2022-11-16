@@ -39,7 +39,7 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
       depgraph_file.short_path,
       "--package-source",
       ctx.attr.package_source,
-      "test",
+      "monitor",
   ]
   if ctx.attr.org_id:
       args.append("--snyk-org-id %s" %( ctx.attr.org_id ))
