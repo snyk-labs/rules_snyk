@@ -52,11 +52,11 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
       output = ctx.outputs.executable,
       content = "\n".join([
           "#!/bin/bash",
-          "exec python3 %s %s" % (ctx.executable._snyk_cli.short_path, " ".join(args))
+          "exec python3 %s %s" % (ctx.executable._snyk_cli_zip.short_path, " ".join(args))
       ]),
       is_executable = True,
   )
-  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli, depgraph_file])
+  runfiles = ctx.runfiles(files = [ctx.executable._snyk_cli_zip, depgraph_file])
   return [DefaultInfo(runfiles = runfiles)]
 
 snyk_depgraph_test_deps = rule(
