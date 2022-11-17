@@ -20,8 +20,30 @@ g={}
 DEPGRAPH_BASE_TEST_URL = "/test/dep-graph?org="
 DEPGRAPH_BASE_MONITOR_URL = "/monitor/dep-graph?org="
 
-print("Hello from CLI!")
-print(f"{sys.argv=}")
+#print("Hello from CLI!")
+#print(f"{sys.argv=}")
+
+class textColor:
+    black = '\033[30m'
+    red = '\033[31m'
+    green = '\033[32m'
+    orange = '\033[33m'
+    blue = '\033[34m'
+    purple = '\033[35m'
+    cyan = '\033[36m'
+    light_grey = '\033[37m'
+    dark_grey = '\033[90m'
+    light_red = '\033[91m'
+    light_green = '\033[92m'
+    yellow = '\033[93m'
+    light_blue = '\033[94m'
+    pink = '\033[95m'
+    light_cyan = '\033[96m'
+
+class textStyle:
+    bold = '\033[1m',
+    reset = '\033[0m',
+    underline = '\033[04m'
 
 @app.callback(no_args_is_help=True)
 def main(ctx: typer.Context,
@@ -48,14 +70,14 @@ def main(ctx: typer.Context,
 
     f = open(depgraph_file)
     g['depgraph_json'] = json.load(f)
-    
-    print(json.dumps(g['depgraph_json']))
+
+    #print(json.dumps(g['depgraph_json']))
 
 @app.command()
 def test(
     summarize: bool = typer.Option(
-        False, 
-        "--summarize", 
+        False,
+        "--summarize",
         help="Display summarized stats of the snyk test, rather than the complete JSON output"
     ),
     snyk_token: str = typer.Option(
@@ -76,19 +98,52 @@ def test(
     #dep_graph: DepGraph = g['dep_graph']
     typer.echo("Testing depGraph via Snyk API ...", file=sys.stderr)
     response: requests.Response = test_depgraph(snyk_client, g['depgraph_json'], snyk_org_id)
-    
+
     json_response = response.json()
-    print(json.dumps(json_response, indent=4))
+    #print(json.dumps(json_response, indent=4))
+
+    #for issue_data in json_response['issuesData']:
+    #   print(f"{issue_data=}")
+    #  print(
+    #     f"{issue_data['title']}"
+    #     f"{issue_data['severity']}"
+    #    )
+
+    for issue in json_response['issues']:
+        # get the issue data for the issue id
+        issues_data = json_response['issuesData']
+
+        issue_id = issue['issueId']
+        issue_coordinates = f"{issue['pkgName']}@{issue['pkgVersion']}"
+        issue_title = issues_data[issue_id]['title']
+        issue_severity = issues_data[issue_id]['severity']
+
+        # set text colors
+        if issue_severity == "low":
+            issue_title = f"{textColor.cyan}{issue_title}"
+        if issue_severity == "medium":
+            issue_title = f"{textColor.yellow}{issue_title}"
+        if issue_severity == "high":
+            issue_title = f"{textColor.light_red}{issue_title}"
+        if issue_severity == "critical":
+            issue_title = f"{textColor.red}{issue_title}"
+
+        print(
+            f"  {issue_title} "
+            f"[{issue_severity}] "
+            f"{textColor.light_grey}[{issue_id}] in "
+            f"{issue_coordinates}"
+        )
 
     if str(json_response['ok']) == "False":
-        typer.echo("exiting with code 1", file=sys.stderr)
+        typer.echo("\nsecurity issues found, exiting with code 1 ...\n", file=sys.stderr)
         sys.exit(1)
 
 @app.command()
 def monitor(
     summarize: bool = typer.Option(
-        False, 
-        "--summarize", 
+        False,
+        "--summarize",
         help="Display summarized stats of the snyk test, rather than the complete JSON output"
     ),
     snyk_token: str = typer.Option(
@@ -109,12 +164,12 @@ def monitor(
     #dep_graph: DepGraph = g['dep_graph']
     typer.echo("Monitoring depGraph via Snyk API ...", file=sys.stderr)
     response: requests.Response = monitor_depgraph(snyk_client, g['depgraph_json'], snyk_org_id)
-    
+
     json_response = response.json()
     print(json.dumps(json_response, indent=4))
 
     if str(json_response['ok']) == "False":
-        typer.echo("exiting with code 1", file=sys.stderr)
+        typer.echo("exiting with code 1 ...", file=sys.stderr)
         sys.exit(1)
 
 # Utility functions
