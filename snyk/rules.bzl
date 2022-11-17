@@ -119,6 +119,10 @@ snyk_depgraph_monitor_deps = rule(
             doc = "The Snyk Org ID to use",
             default = "",
         ),
+        "json": attr.bool(
+            doc = "Dump full JSON output",
+            default = False
+        ),
         "nocolor": attr.bool(
             doc = "Don't display colors",
             default = False
