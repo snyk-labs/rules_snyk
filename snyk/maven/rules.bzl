@@ -9,7 +9,8 @@ def snyk_maven(
         snyk_organization_id = "",
         version = "bazel",
         json = False,
-        #nocolor = False):
+        #nocolor = False
+    ):
     
     package_source = "maven"
     depgraph_rule_name = name + "_depgraph"
