@@ -5,7 +5,7 @@ This is a Python CLI utility script, used by the bazel rules, for testing and mo
 $ python3 cli/main.py --help
 [usage]
   --depgraph-file
-    	File to test
+    	File to test/monitor
   --snyk-org-id
     	Snyk Organization ID to test/monitor against
   --package-source
