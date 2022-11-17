@@ -43,8 +43,8 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
   ]
   if ctx.attr.org_id:
       args.append("--snyk-org-id %s" %( ctx.attr.org_id ))
-  #if ctx.attr.json:
-  #    args.append("-json")
+  if ctx.attr.json:
+      args.append("--json")
   #if ctx.attr.nocolor:
   #    args.append("-nocolor")
 
