@@ -1,6 +1,6 @@
 # Snyk Open Source rules for Bazel
 
-Rules to test and monitor your open source dependencies with Snyk
+Rules to test and monitor your open source (external) dependencies with Snyk
 
 ## Overview
 Current support is limited to maven OSS for projects using `rules_jvm_external`
@@ -10,6 +10,7 @@ Support for additional OSS types is forthcoming, in order of priority:
 - go modules (rules_go)
 - pip (rules_python)
 - npm (rules_nodejs)
+- others in order of priority
 
 ## Installation
 
@@ -53,18 +54,22 @@ bazel build :lib
 
 Additional targets will automatically be created for Snyk .  In this example, those would be 
 ```
-:lib.snyk_test
-:lib.snyk_monitor
+:snyk_test
+:snyk_monitor
 ```
 
 **Invocation**
 
+environment variables:
+- `SNYK_TOKEN` required to authenticate to Snyk
+- `SNYK_ORG_ID` not required if specifying `snyk_organization_id` in the `BUILD` file
+
 To test for issues with Snyk, simply run
 
-`bazel run :lib.snyk_test`
+`bazel run :snyk_test`
 
 To monitor the target in Snyk, simply run
 
-`bazel run :lib.snyk_monitor`
+`bazel run :snyk_monitor`
 
 ### via `--aspect`
