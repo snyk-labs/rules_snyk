@@ -12,8 +12,6 @@ $ python3 cli/main.py --help
       OSS source type, e.g. maven
   --json
     	Display full JSON response instead of the default output
-  --no-color
-    	No colorized output
       
 [commands]
 test
