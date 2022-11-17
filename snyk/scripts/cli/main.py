@@ -90,7 +90,12 @@ def test(
         None,
         envvar="SNYK_ORG_ID",
         help="Please specify the Snyk ORG ID to run commands against"
-    )
+    ),
+    json: bool = typer.Option(
+        False,
+        "--json",
+        help="return the JSON output from the test API results"
+    ),
 ):
 
     snyk_client = snyk.SnykClient(snyk_token)
@@ -100,7 +105,6 @@ def test(
     response: requests.Response = test_depgraph(snyk_client, g['depgraph_json'], snyk_org_id)
 
     json_response = response.json()
-    #print(json.dumps(json_response, indent=4))
 
     #for issue_data in json_response['issuesData']:
     #   print(f"{issue_data=}")
@@ -108,6 +112,10 @@ def test(
     #     f"{issue_data['title']}"
     #     f"{issue_data['severity']}"
     #    )
+    
+    if json:
+        print(json.dumps(json_response, indent=4))
+        sys.exit(0)
 
     for issue in json_response['issues']:
         # get the issue data for the issue id
