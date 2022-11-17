@@ -1,7 +1,7 @@
 # snyk-cli
 This is a Python CLI utility script, used by the bazel rules, for testing and monitoring open source dependency graphs with Snyk's [Depgraph API](https://snyk.docs.apiary.io/#reference/test/dep-graph)
 
-```bash
+```
 $ python3 cli/main.py --help
 [usage]
   --depgraph-file
