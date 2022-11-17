@@ -13,8 +13,8 @@ def _snyk_depgraph_test_deps_impl(ctx):
   ]
   if ctx.attr.org_id:
       args.append("--snyk-org-id %s" %( ctx.attr.org_id ))
-  #if ctx.attr.json:
-  #    args.append("-json")
+  if ctx.attr.json:
+      args.append("--json")
   #if ctx.attr.nocolor:
   #    args.append("-nocolor")
 
@@ -43,8 +43,8 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
   ]
   if ctx.attr.org_id:
       args.append("--snyk-org-id %s" %( ctx.attr.org_id ))
-  if ctx.attr.json:
-      args.append("--json")
+  #if ctx.attr.json:
+  #    args.append("--json")
   #if ctx.attr.nocolor:
   #    args.append("-nocolor")
 
@@ -118,10 +118,6 @@ snyk_depgraph_monitor_deps = rule(
         "org_id": attr.string(
             doc = "The Snyk Org ID to use",
             default = "",
-        ),
-        "json": attr.bool(
-            doc = "Dump full JSON output",
-            default = False
         ),
         "nocolor": attr.bool(
             doc = "Don't display colors",
