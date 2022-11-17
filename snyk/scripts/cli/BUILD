@@ -5,6 +5,7 @@ py_binary(
     name = "main",
     srcs = ["main.py"],
     deps = all_requirements,
+    python_version = "PY3",
     visibility = ["//visibility:public"],
 )
 
