@@ -66,13 +66,13 @@ environment variables:
 - `SNYK_TOKEN` required to authenticate to Snyk
 - `SNYK_ORG_ID` not required if specifying `snyk_organization_id` in the `BUILD` file
 
-To test for issues with Snyk, simply run
+To test for issues with Snyk
 
 ```
 bazel run :snyk_test
 ```
 
-To monitor the target in Snyk, simply run
+To monitor the target in Snyk
 
 ```
 bazel run :snyk_monitor
