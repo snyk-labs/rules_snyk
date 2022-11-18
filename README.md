@@ -68,11 +68,15 @@ environment variables:
 
 To test for issues with Snyk, simply run
 
-`bazel run :snyk_test`
+```
+bazel run :snyk_test
+```
 
 To monitor the target in Snyk, simply run
 
-`bazel run :snyk_monitor`
+```
+bazel run :snyk_monitor
+```
 
 ### via `--aspect`
 
