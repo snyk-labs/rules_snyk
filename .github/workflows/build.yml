@@ -17,3 +17,4 @@ jobs:
             key: bazel
         - run: bazel build //...
         - run: bazel run //third_party:requirements.update
+        - run: cp $(bazel info output_base)/external/rules_snyk_pip_deps/requirements.bzl third_party/py_requirements.bzl
