@@ -16,9 +16,7 @@ jobs:
             path: "~/.cache/bazel"
             key: bazel
         - run: bazel build //...
-        - name: freeze pip dependencies
         - run: bazel run //third_party:requirements.update
-        - name: vendor python requirements
         - run: cp $(bazel info output_base)/external/rules_snyk_pip_deps/requirements.bzl third_party/py_requirements.bzl
         - name: commit vendored requirements file (if changed)
           uses: EndBug/add-and-commit@v8
