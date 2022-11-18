@@ -1,4 +1,4 @@
-name: bazel build //...
+name: bazel build
 
 on:
   push
@@ -16,3 +16,4 @@ jobs:
             path: "~/.cache/bazel"
             key: bazel
         - run: bazel build //...
+        - run: bazel run //third_party:requirements.update
