@@ -1,5 +1,7 @@
 # Snyk Open Source rules for Bazel
 
+![build status](https://github.com/scotte-snyk/bazel_rules_snyk/actions/workflows/build.yml/badge.svg)
+
 Rules to test and monitor your open source (external) dependencies with Snyk
 
 ## Overview
