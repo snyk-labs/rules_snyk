@@ -17,7 +17,7 @@ jobs:
             key: bazel
         - run: bazel build //...
         - run: bazel run //third_party:requirements.update
-        - run: cp $(bazel info output_base)/external/py_deps/requirements.bzl third_party/py_requirements.bzl
+        - run: cp $(bazel info output_base)/external/pypi/requirements.bzl third_party/py_requirements.bzl
         - name: commit vendored requirements file (if changed)
           uses: EndBug/add-and-commit@v8
           with:

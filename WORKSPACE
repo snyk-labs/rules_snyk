@@ -20,11 +20,11 @@ rules_snyk_repos()
 load("@rules_python//python:pip.bzl", "pip_parse")
 
 pip_parse(
-    name = "py_deps",
+    name = "pypi",
     requirements = "//third_party:requirements.txt",
 )
 
-load("@py_deps//:requirements.bzl", install_snyk_deps = "install_deps")
+load("@pypi//:requirements.bzl", install_snyk_deps = "install_deps")
 install_snyk_deps()
 
 load("//:dependencies.bzl", "rules_snyk_deps")
