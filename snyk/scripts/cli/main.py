@@ -189,4 +189,5 @@ def monitor_depgraph(snyk_client, depgraph: str, org_id: UUID) -> requests.Respo
 
 
 if __name__ == "__main__":
+    print("version: ", sys.version)
     app()
