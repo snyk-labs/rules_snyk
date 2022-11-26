@@ -132,7 +132,7 @@ snyk_depgraph_monitor_deps = rule(
     executable = True
 )
 
-def _snyk_python_test_impl(ctx):
+def _snyk_python_tester_impl(ctx):
   args = []
   ctx.actions.write(
       output = ctx.outputs.executable,
@@ -145,7 +145,7 @@ def _snyk_python_test_impl(ctx):
   runfiles = ctx.runfiles(files = [ctx.executable._snyk_test_zip])
   return [DefaultInfo(runfiles = runfiles)]
 
-snyk_python_test = rule(
+snyk_python_tester = rule(
   attrs = {
         "_snyk_test": attr.label(
             default = "//snyk/scripts/test:main",
@@ -158,6 +158,6 @@ snyk_python_test = rule(
             executable = True
         )
     },
-    implementation = _snyk_python_test_impl,
+    implementation = _snyk_python_tester_impl,
     executable = True
 )
