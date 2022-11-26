@@ -147,12 +147,12 @@ def _snyk_python_test_impl(ctx):
 
 snyk_python_test = rule(
   attrs = {
-        "_snyk_cli": attr.label(
+        "_snyk_test": attr.label(
             default = "//snyk/scripts/test:main",
             cfg = "host",
             executable = True,
         ),
-        "_snyk_cli_zip": attr.label(
+        "_snyk_test_zip": attr.label(
             default = "//snyk/scripts/test:main_zip", 
             cfg = "host", 
             executable = True
