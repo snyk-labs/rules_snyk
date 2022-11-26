@@ -3,7 +3,9 @@
 load("//snyk/maven:rules.bzl", _snyk_maven = "snyk_maven")
 #load("//snyk/gomod:rules.bzl", _snyk_gomod = "snyk_gomod")
 #load("//snyk/pip:rules.bzl", _snyk_pip = "snyk_pip")
+load("//snyk/test:rules.bzl", _snyk_python_test = "snyk_python_test")
 
 snyk_maven = _snyk_maven
 # snyk_gomod = _snyk_gomod
 # snyk_pip = _snyk_pip
+snyk_python_test = _snyk_python_test
