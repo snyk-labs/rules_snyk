@@ -145,7 +145,7 @@ def _snyk_python_tester_impl(ctx):
   runfiles = ctx.runfiles(files = [ctx.executable._snyk_test_zip])
   return [DefaultInfo(runfiles = runfiles)]
 
-snyk_python_tester = rule(
+snyk_python_tester_rule = rule(
   attrs = {
         "_snyk_test": attr.label(
             default = "//snyk/scripts/test:main",
