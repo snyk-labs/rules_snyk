@@ -133,7 +133,7 @@ snyk_depgraph_monitor_deps = rule(
 )
 
 def _snyk_python_test_impl(ctx):
-
+  args = []
   ctx.actions.write(
       output = ctx.outputs.executable,
       content = "\n".join([
