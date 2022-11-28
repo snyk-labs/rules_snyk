@@ -25,21 +25,23 @@ DEPGRAPH_BASE_MONITOR_URL = "/monitor/dep-graph?org="
 #print(f"{sys.argv=}")
 
 class textColor:
-    black = '\033[30m'
-    red = '\033[31m'
-    green = '\033[32m'
-    orange = '\033[33m'
-    blue = '\033[34m'
-    purple = '\033[35m'
-    cyan = '\033[36m'
-    light_grey = '\033[37m'
-    dark_grey = '\033[90m'
-    light_red = '\033[91m'
-    light_green = '\033[92m'
-    yellow = '\033[93m'
-    light_blue = '\033[94m'
-    pink = '\033[95m'
-    light_cyan = '\033[96m'
+    red = '\033[0;31m'
+    red_bold = '\033[1;31m'
+    green = '\033[0;32m'
+    green_bold = '\033[1;32m'
+    blue = '\033[0;34m'
+    cyan = '\033[0;36m'
+    cyan_bold = '\033[1;36m'
+    light_grey = '\033[0;37m'
+    light_grey_bold = '\033[1;37m'
+    dark_grey = '\033[0;90m'
+    light_red = '\033[0;91m'
+    light_red_bold = '\033[1;91m'
+    light_green = '\033[0;92m'
+    yellow = '\033[0;93m'
+    yellow_bold = '\033[1;93m'
+    light_blue = '\033[0;94m'
+    light_cyan = '\033[0;96m'
 
 class textStyle:
     bold = '\033[1m',
@@ -133,7 +135,7 @@ def test(
 
       issues_count = len(issues_list)
 
-      print(f"\n{textColor.light_grey}{package_name} ({issues_count})")
+      print(f"\n{textColor.light_grey_bold}{package_name} ({issues_count}){textColor.light_grey}")
 
     #for issue in json_response['issues']:
       for issue in issues_list:
@@ -148,21 +150,26 @@ def test(
         issue_title = issues_data[issue_id]['title']
         issue_severity = issues_data[issue_id]['severity']
         issue_severity_color = textColor.light_grey
+        issue_severity_color_bold = textColor.light_grey_bold
 
         # set text colors
         if issue_severity == "low":
             issue_severity_color = textColor.cyan
+            issue_severity_color_bold = textColor.cyan_bold
         if issue_severity == "medium":
             issue_severity_color = textColor.yellow
+            issue_severity_color_bold = textColor.yellow_bold
         if issue_severity == "high":
             issue_severity_color = textColor.light_red
+            issue_severity_color_bold = textColor.light_red_bold
         if issue_severity == "critical":
             issue_severity_color = textColor.red
-        issue_title = f"{issue_severity_color}{issue_title}"
+            issue_severity_color_bold = textColor.red_bold
+        issue_title = f"{issue_severity_color_bold}{issue_title}"
 
-        issue_fixed_ins = f"({issue_severity_color}Fixed in: N/A{textColor.light_grey})"
+        issue_fixed_ins = f"({issue_severity_color_bold}Fixed in: N/A{textColor.light_grey})"
         if issues_data[issue_id]['fixedIn']:
-            issue_fixed_ins = f"({textColor.green}Fixed in: {','.join(issues_data[issue_id]['fixedIn'])}{textColor.light_grey})"
+            issue_fixed_ins = f"({textColor.green_bold}Fixed in: {','.join(issues_data[issue_id]['fixedIn'])}{textColor.light_grey})"
         issue_cve = ""
         if issues_data[issue_id]['identifiers']['CVE']:
             issue_cve = "- " + ','.join(issues_data[issue_id]['identifiers']['CVE']) + " "
