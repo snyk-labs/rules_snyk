@@ -6,6 +6,7 @@ import snyk
 import requests
 import logging
 from uuid import UUID
+from itertools import groupby
 
 #set up logging
 logger = logging.getLogger(__name__)
@@ -101,7 +102,7 @@ def test(
     snyk_client = snyk.SnykClient(snyk_token)
 
     #dep_graph: DepGraph = g['dep_graph']
-    typer.echo("Testing depGraph via Snyk API ...", file=sys.stderr)
+    typer.echo("Testing via Snyk API ...", file=sys.stderr)
     response: requests.Response = test_depgraph(snyk_client, g['depgraph_json'], snyk_org_id)
 
     json_response = response.json()
@@ -117,34 +118,66 @@ def test(
         print(json.dumps(json_response, indent=4))
         sys.exit(0)
 
-    for issue in json_response['issues']:
+    # create a list of dictionaries with the key of the package name
+    # to iterate later easily for grouped display
+
+    def _groupby_function(k):
+        return k['pkgName']
+
+    issue_packages = sorted(json_response['issues'], key=_groupby_function) 
+    logger.debug(f"{issue_packages=}")
+  
+    for package_name, issues in groupby(issue_packages, _groupby_function):
+      issues_list = list(issues)
+      logger.debug(f"{issues_list=}")
+
+      issues_count = len(issues_list)
+
+      print(f"\n{textColor.light_grey}{package_name} ({issues_count})")
+
+    #for issue in json_response['issues']:
+      for issue in issues_list:
         # get the issue data for the issue id
         issues_data = json_response['issuesData']
 
         issue_id = issue['issueId']
-        issue_coordinates = f"{issue['pkgName']}@{issue['pkgVersion']}"
+        issue_link = f"{textColor.light_grey}[https://security.snyk.io/vuln/{issue_id}]"
+        issue_package_name = issue['pkgName']
+        issue_package_version = issue['pkgVersion']
+        issue_coordinates = f"{issue_package_name}@{issue_package_version}"
         issue_title = issues_data[issue_id]['title']
         issue_severity = issues_data[issue_id]['severity']
+        issue_severity_color = textColor.light_grey
 
         # set text colors
         if issue_severity == "low":
-            issue_title = f"{textColor.cyan}{issue_title}"
+            issue_severity_color = textColor.cyan
         if issue_severity == "medium":
-            issue_title = f"{textColor.yellow}{issue_title}"
+            issue_severity_color = textColor.yellow
         if issue_severity == "high":
-            issue_title = f"{textColor.light_red}{issue_title}"
+            issue_severity_color = textColor.light_red
         if issue_severity == "critical":
-            issue_title = f"{textColor.red}{issue_title}"
+            issue_severity_color = textColor.red
+        issue_title = f"{issue_severity_color}{issue_title}"
+
+        issue_fixed_ins = f"({issue_severity_color}Fixed in: N/A{textColor.light_grey})"
+        if issues_data[issue_id]['fixedIn']:
+            issue_fixed_ins = f"({textColor.green}Fixed in: {','.join(issues_data[issue_id]['fixedIn'])}{textColor.light_grey})"
+        issue_cve = ""
+        if issues_data[issue_id]['identifiers']['CVE']:
+            issue_cve = "- " + ','.join(issues_data[issue_id]['identifiers']['CVE']) + " "
 
         print(
             f"  {issue_title} "
             f"[{issue_severity}] "
-            f"{textColor.light_grey}[{issue_id}] in "
-            f"{issue_coordinates}"
+            f"{issue_cve}"
+            f"{issue_link} in "
+            f"{issue_package_version} "
+            f"{issue_fixed_ins}" 
         )
 
     if str(json_response['ok']) == "False":
-        typer.echo("\nsecurity issues found, exiting with code 1 ...\n", file=sys.stderr)
+        typer.echo("\n" + textColor.light_red + "security issues found, exiting with code 1 ...\n", file=sys.stderr)
         sys.exit(1)
 
 @app.command()
@@ -170,14 +203,14 @@ def monitor(
     snyk_client = snyk.SnykClient(snyk_token)
 
     #dep_graph: DepGraph = g['dep_graph']
-    typer.echo("Monitoring depGraph via Snyk API ...", file=sys.stderr)
+    typer.echo("Monitoring via Snyk API ...", file=sys.stderr)
     response: requests.Response = monitor_depgraph(snyk_client, g['depgraph_json'], snyk_org_id)
 
     json_response = response.json()
     print(json.dumps(json_response, indent=4))
 
     if str(json_response['ok']) == "False":
-        typer.echo("exiting with code 1 ...", file=sys.stderr)
+        typer.echo("\n" + textColor.light_red + "security issues found, exiting with code 1 ...\n", file=sys.stderr)
         sys.exit(1)
 
 # Utility functions
@@ -189,5 +222,5 @@ def monitor_depgraph(snyk_client, depgraph: str, org_id: UUID) -> requests.Respo
 
 
 if __name__ == "__main__":
-    print("version: ", sys.version)
+    logger.debug("version: ", sys.version)
     app()
