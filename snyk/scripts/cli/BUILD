@@ -1,10 +1,14 @@
 load("@rules_python//python:defs.bzl", "py_binary")
-load("//third_party:py_requirements.bzl", "all_requirements")
+#load("//third_party:py_requirements.bzl", "all_requirements")
+load("@snyk_py_deps//:requirements.bzl", "requirement")
 
 py_binary(
     name = "main",
     srcs = ["main.py"],
-    deps = all_requirements,
+    deps = [
+        requirement("pysnyk"),
+        requirement("typer")
+    ],
     python_version = "PY3",
     visibility = ["//visibility:public"],
 )

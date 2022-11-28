@@ -4,6 +4,7 @@ py_binary(
     name = "main",
     srcs = ["main.py"],
     python_version = "PY3",
+    #python_interpreter = ["@py_darwin_x86_64//:toolchain", "@py_darwin_arm64//:toolchain", "@py_linux_x86_64//:toolchain"],
     visibility = ["//visibility:public"],
 )
 

@@ -134,26 +134,27 @@ snyk_depgraph_monitor_deps = rule(
 
 def _snyk_python_tester_impl(ctx):
   args = []
+  print("ctx: " + str(dir(ctx.toolchains)))
   ctx.actions.write(
       output = ctx.outputs.executable,
       content = "\n".join([
           "#!/bin/bash",
-          "exec python3 %s %s" % (ctx.executable._snyk_test_zip.short_path, " ".join(args))
+          "exec python3 %s %s" % (ctx.executable._snyk_tester_zip.short_path, " ".join(args))
       ]),
       is_executable = True,
   )
-  runfiles = ctx.runfiles(files = [ctx.executable._snyk_test_zip])
+  runfiles = ctx.runfiles(files = [ctx.executable._snyk_tester_zip])
   return [DefaultInfo(runfiles = runfiles)]
 
 snyk_python_tester_rule = rule(
   attrs = {
-        "_snyk_test": attr.label(
-            default = "//snyk/scripts/test:main",
+        "_snyk_tester": attr.label(
+            default = "//snyk/scripts/tester:main",
             cfg = "host",
             executable = True,
         ),
-        "_snyk_test_zip": attr.label(
-            default = "//snyk/scripts/test:main_zip", 
+        "_snyk_tester_zip": attr.label(
+            default = "//snyk/scripts/tester:main_zip", 
             cfg = "host", 
             executable = True
         )

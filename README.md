@@ -19,19 +19,26 @@ Support for additional OSS types is forthcoming, in order of priority:
 Load the rules into your `WORKSPACE` to make them available
 
 ```
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+#load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
     name = "rules_snyk",
     remote = "https://github.com/scotte-snyk/bazel_rules_snyk.git",
-    commit = "3a131bc16a8a735cf2d8b331e0b7e94a5d91f7e5",
+    commit = "f9f2b23",
 )
 
 load("@rules_snyk//:repositories.bzl", "rules_snyk_repos")
 rules_snyk_repos()
 
-load("@rules_snyk//:dependencies.bzl", "rules_snyk_deps")
-rules_snyk_deps()
+load("@rules_python//python:pip.bzl", "pip_parse")
+
+pip_parse(
+    name = "snyk_py_deps",
+    requirements_lock = "@rules_snyk//third_party:requirements.txt",
+)
+
+load("@snyk_py_deps//:requirements.bzl", install_snyk_deps = "install_deps")
+install_snyk_deps()
 ```
 
 ## Usage
