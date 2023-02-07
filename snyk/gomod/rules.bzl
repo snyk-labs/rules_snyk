@@ -5,7 +5,7 @@ load("//snyk:rules.bzl", _monitor = "snyk_depgraph_monitor_deps", _test = "snyk_
 def snyk_gomod(
         name,
         target,
-        # snyk_project_name = "",
+        snyk_project_name = "",
         snyk_organization_id = "",
         version = "bazel",
         json = False,
