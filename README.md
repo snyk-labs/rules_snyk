@@ -4,21 +4,20 @@
 
 Rules to test and monitor your open source (external) dependencies with Snyk
 
-## 3rd party package support
-* `maven` for projects using `rules_jvm_external`
-* `go modules` for projects using rules_go in conjunction with gazelle
+## OSS package support
+* `maven` for projects using [rules_jvm_external](https://github.com/bazelbuild/rules_jvm_external)
+* `go modules` for projects using [rules_go](https://github.com/bazelbuild/rules_go) in conjunction with [gazelle](https://github.com/bazelbuild/bazel-gazelle)
 
-Support for additional OSS types is forthcoming, in order of priority:
+Currently investingating support for
 
-- pip (rules_python)
-- npm (rules_nodejs)
-- others in order of priority
+- pip ([rules_python](https://github.com/bazelbuild/rules_python))
+- npm ([rules_nodejs](https://github.com/bazelbuild/rules_nodejs), [rules_js](https://github.com/aspect-build/rules_js))
 
 ## Installation
 
 Load the rules into your `WORKSPACE` to make them available
 
-```
+```python
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
@@ -46,7 +45,7 @@ install_snyk_deps()
 
 **Maven example**
 
-```
+```python
 load("@rules_snyk//:defs.bzl", "snyk_maven")
 
 snyk_maven(
@@ -58,7 +57,7 @@ snyk_maven(
 
 **Go Modules example**
 
-```
+```python
 load("@rules_snyk//:defs.bzl", "snyk_gomod")
 
 snyk_gomod(
