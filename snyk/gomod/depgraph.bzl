@@ -35,23 +35,26 @@ def _snyk_gomod_depgraph_impl(ctx):
     )
 
     coordinates = ctx.attr.target[GoModDeps].all_gomod_dep_coordinates
-    each_coordinates = ctx.attr.target[GoModDeps].each_gomod_dep_coordinates
-    print("ctx.attr.target[GoModDeps]: " + str(ctx.attr.target[GoModDeps]))
-    #print("each coordinates: " + str(each_coordinates))
+    # each_coordinates = ctx.attr.target[GoModDeps].each_gomod_dep_coordinates
+    # print("ctx.attr.target[GoModDeps]: " + str(ctx.attr.target[GoModDeps]))
+    # print("each coordinates: " + str(each_coordinates))
     added_coordinates = []
     for coordinate in sorted(coordinates.to_list()):
-        parts = coordinate.split(":")
-        name = "%s:%s" % (parts[0], parts[1])
+        # print("coordinate: " + str(coordinate))
+        parts = coordinate.split("@")
+        name = parts[0]
+        version = parts[1]
         # the version should always be the last part after splitting on ':'
-        version = parts[-1]
-        maven_id = "%s@%s" % (name, version)
+        # version = parts[-1]
+        # gomod_id = "%s@%s" % (name, version)
+        gomod_id = coordinate
 
         # we should track if we've added the coordinate before, and if we have, then continue the loop so we don't get duplicate pkg ids
-        if maven_id in added_coordinates:
+        if gomod_id in added_coordinates:
             continue
 
         dep_graph.pkgs.append(struct(
-            id = maven_id,
+            id = gomod_id,
             info = struct(
                 name = name,
                 version = version
@@ -59,23 +62,23 @@ def _snyk_gomod_depgraph_impl(ctx):
         ))
 
         dep_graph.graph.nodes[0].deps.append(struct(
-            nodeId = maven_id
+            nodeId = gomod_id
         ))
 
         dep_graph.graph.nodes.append(struct(
-            nodeId = maven_id,
-            pkgId = maven_id,
+            nodeId = gomod_id,
+            pkgId = gomod_id,
             deps = []
         ))
 
-        added_coordinates.append(maven_id)
+        added_coordinates.append(gomod_id)
 
 
     dep_graph_request = struct(
         depGraph = dep_graph
     )
 
-    outputfile = ctx.actions.declare_file(ctx.attr.name + "_depgraph.json")
+    outputfile = ctx.actions.declare_file(ctx.attr.name + ".json")
     ctx.actions.write(outputfile, dep_graph_request.to_json())
     return [DefaultInfo(files = depset([outputfile]))]
 

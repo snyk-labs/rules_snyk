@@ -21,8 +21,8 @@ g={}
 DEPGRAPH_BASE_TEST_URL = "/test/dep-graph?org="
 DEPGRAPH_BASE_MONITOR_URL = "/monitor/dep-graph?org="
 
-#print("Hello from CLI!")
-#print(f"{sys.argv=}")
+# print("Hello from CLI!")
+# print(f"{sys.argv=}")
 
 class textColor:
     red = '\033[0;31m'
@@ -103,8 +103,9 @@ def test(
 
     snyk_client = snyk.SnykClient(snyk_token)
 
-    #dep_graph: DepGraph = g['dep_graph']
+    # dep_graph: DepGraph = g['dep_graph']
     typer.echo("Testing via Snyk API ...", file=sys.stderr)
+    # print(g['depgraph_json'])
     response: requests.Response = test_depgraph(snyk_client, g['depgraph_json'], snyk_org_id)
 
     json_response = response.json()
