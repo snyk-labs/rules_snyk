@@ -1,3 +1,7 @@
+![Snyk logo](https://snyk.io/style/asset/logo/snyk-print.svg)
+
+![snyk-oss-category](https://raw.githubusercontent.com/snyk-labs/oss-images/main/oss-community.jpg)
+
 # Snyk Open Source rules for Bazel
 
 ![build status](https://github.com/scotte-snyk/bazel_rules_snyk/actions/workflows/build.yml/badge.svg)
