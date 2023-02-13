@@ -8,6 +8,14 @@ def rules_snyk_repos():
         strip_prefix = "rules_python-0.13.0",
         url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.13.0.tar.gz",
     )
+    http_archive(
+        name = "io_bazel_rules_go",
+        sha256 = "099a9fb96a376ccbbb7d291ed4ecbdfd42f6bc822ab77ae6f1b5cb9e914e94fa",
+        urls = [
+            "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.35.0/rules_go-v0.35.0.zip",
+            "https://github.com/bazelbuild/rules_go/releases/download/v0.35.0/rules_go-v0.35.0.zip",
+        ],
+    )
     #http_archive(
     #    name = "rules_python",
     #    sha256 = "a868059c8c6dd6ad45a205cca04084c652cfe1852e6df2d5aca036f6e5438380",
