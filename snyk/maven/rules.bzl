@@ -1,6 +1,11 @@
 load(":aspect.bzl", "maven_deps_aspect")
 load(":depgraph.bzl", _depgraph = "snyk_maven_depgraph")
-load("//snyk:rules.bzl", _monitor = "snyk_depgraph_monitor_deps", _test = "snyk_depgraph_test_deps")
+load(
+    "//snyk:rules.bzl", 
+    _test = "snyk_depgraph_test_deps", 
+    _monitor = "snyk_depgraph_monitor_deps",
+    _print_deps = "snyk_depgraph_print_deps"
+)
 
 def snyk_maven(
         name,
@@ -28,6 +33,14 @@ def snyk_maven(
         name = name + "_monitor",
         package_source = package_source,
         org_id = snyk_organization_id, 
+        depgraph = depgraph_rule_name,
+        json = json,
+        # nocolor = nocolor,
+    )
+
+    _print_deps(
+        name = name + "_print_deps",
+        package_source = package_source,
         depgraph = depgraph_rule_name,
         json = json,
         # nocolor = nocolor,

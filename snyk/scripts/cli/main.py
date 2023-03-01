@@ -1,5 +1,5 @@
 import sys
-import json
+import json as json_lib
 import os
 import typer
 import snyk
@@ -72,9 +72,9 @@ def main(ctx: typer.Context,
         logger.setLevel(logging.DEBUG)
 
     f = open(depgraph_file)
-    g['depgraph_json'] = json.load(f)
+    g['depgraph_json'] = json_lib.load(f)
 
-    #print(json.dumps(g['depgraph_json']))
+    #print(json_lib.dumps(g['depgraph_json']))
 
 @app.command()
 def test(
@@ -97,7 +97,7 @@ def test(
     json: bool = typer.Option(
         False,
         "--json",
-        help="return the JSON output from the test API results"
+        help="Return the JSON output from the test API results"
     ),
 ):
 
@@ -117,7 +117,7 @@ def test(
     #    )
     
     if json:
-        print(json.dumps(json_response, indent=4))
+        print(json_lib.dumps(json_response, indent=4))
         sys.exit(0)
 
     # create a list of dictionaries with the key of the package name
@@ -214,18 +214,32 @@ def monitor(
     response: requests.Response = monitor_depgraph(snyk_client, g['depgraph_json'], snyk_org_id)
 
     json_response = response.json()
-    print(json.dumps(json_response, indent=4))
+    print(json_lib.dumps(json_response, indent=4))
 
     if str(json_response['ok']) == "False":
         typer.echo("\n" + textColor.light_red + "security issues found, exiting with code 1 ...\n", file=sys.stderr)
         sys.exit(1)
 
-# Utility functions
+@app.command()
+def print_deps(
+    json: bool = typer.Option(
+        False,
+        "--json",
+        help="Print the dependency tree in JSON format"
+    ),
+):
+    """
+    Print the dependency tree
+    """
+    print(json_lib.dumps(g['depgraph_json'], indent=4))
+
+
+# depgraph functions
 def test_depgraph(snyk_client, depgraph: str, org_id: UUID) -> requests.Response:
-        return snyk_client.post(f"{DEPGRAPH_BASE_TEST_URL}{org_id}", body=depgraph)
+    return snyk_client.post(f"{DEPGRAPH_BASE_TEST_URL}{org_id}", body=depgraph)
 
 def monitor_depgraph(snyk_client, depgraph: str, org_id: UUID) -> requests.Response:
-        return snyk_client.post(f"{DEPGRAPH_BASE_MONITOR_URL}{org_id}", body=depgraph)
+    return snyk_client.post(f"{DEPGRAPH_BASE_MONITOR_URL}{org_id}", body=depgraph)
 
 
 if __name__ == "__main__":
