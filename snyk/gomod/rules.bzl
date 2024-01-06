@@ -1,54 +1,33 @@
-load(":aspect.bzl", "gomod_deps_aspect")
-load(":depgraph.bzl", _depgraph = "snyk_gomod_depgraph")
-load("//snyk:rules.bzl", _monitor = "snyk_depgraph_monitor_deps", _test = "snyk_depgraph_test_deps")
-
 def snyk_gomod(
         name,
         target,
         snyk_project_name = "",
         snyk_organization_id = "",
         version = "bazel",
-        json = False,
-        #nocolor = False
+        json = False
     ):
 
-    package_source = "gomod"
-    depgraph_rule_name = name + "_depgraph"
+    # print("gomod rules.bzl hello!")
+    # print("gomod rules.bzl target: " + str(dir(target)))
 
-    _test(
-        name = name + "_test",
-        package_source = package_source,
-        org_id = snyk_organization_id,
-        depgraph = depgraph_rule_name,
-        json = json,
-        #nocolor = nocolor,
+    native.sh_binary(
+        name = "snyk_test",
+        args = ["test", "$(location @snyk_cli//file)", "$(location @go_sdk//:bin/go)", "$(location " + target + ")"],
+        srcs = ["@rules_snyk//snyk/gomod:snyk_cli_gomod.sh"],
+        data = [
+            target,
+            "@snyk_cli//file",
+            "@go_sdk//:bin/go",
+        ],
     )
 
-    _monitor(
-        name = name + "_monitor",
-        package_source = package_source,
-        org_id = snyk_organization_id,
-        depgraph = depgraph_rule_name,
-        json = json,
-        # nocolor = nocolor,
+    native.sh_binary(
+        name = "snyk_monitor",
+        args = ["monitor", "$(location @snyk_cli//file)", "$(location @go_sdk//:bin/go)", "$(location " + target + ")"],
+        srcs = ["@rules_snyk//snyk/gomod:snyk_cli_gomod.sh"],
+        data = [
+            target,
+            "@snyk_cli//file",
+            "@go_sdk//:bin/go",
+        ],
     )
-
-    _depgraph(
-        name = depgraph_rule_name,
-        target = target,
-        package_source = package_source,
-        # project_name = snyk_project_name,
-        org_id = snyk_organization_id,
-        version = version,
-    )
-
-def _snyk_scan_gomod_impl(ctx):
-    # collection and processing of transitives for gomod goes here
-    print('_snyk_scan_gomod_impl | handling of gomod transitives here')
-    print('_snyk_scan_impl | name=' + str(ctx.attr.name))
-    print("_snyk_scan_impl | oss_type=" + str(ctx.attr.oss_type))
-    print("_snyk_scan_impl | target=" + str(ctx.attr.target.label))
-
-
-def snyk_gomod_coordinates(gomod_target):
-    print("snyk_gomod_coordinates | hello")

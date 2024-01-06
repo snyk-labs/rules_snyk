@@ -4,7 +4,6 @@
 
 def _snyk_depgraph_test_deps_impl(ctx):
   depgraph_file = ctx.attr.depgraph.files.to_list()[0]
-  # gomod_list_file = ctx.attr.depgraph.files.to_list()[1]
 
   args = [
       "--depgraph-file",
@@ -63,7 +62,6 @@ def _snyk_depgraph_monitor_deps_impl(ctx):
 
 def _snyk_depgraph_print_deps_impl(ctx):
   depgraph_file = ctx.attr.depgraph.files.to_list()[0]
-  # gomod_list_file = ctx.attr.depgraph.files.to_list()[1]
 
   args = [
       "--depgraph-file",

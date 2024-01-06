@@ -1,4 +1,4 @@
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 def rules_snyk_repos():
     # python support for depgraph processing
@@ -22,3 +22,8 @@ def rules_snyk_repos():
     #    strip_prefix = "rules_python-0.14.0",
     #    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.14.0.tar.gz",
     #)
+    http_file(
+        name = "snyk_cli",
+        url = "https://github.com/snyk/cli/releases/download/v1.1256.0/snyk-macos-arm64",
+        sha256 = "346a52114f682f176536740e9e972758e2bfd678c7e8da30bb99058e19afb276",
+    )
